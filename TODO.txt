@@ -1,0 +1,357 @@
+/tools
+  def self.resolv_getname ip
+  def self.resolv_dns domain
+  validators.rb
+
+
+
+
+
+
+cmdapi_base.rb:3:  def self.base_command command, params, opts
+cmdapi_debug.rb:3:  def self.debug?
+cmdapi_debug.rb:7:  def self.debug_mesage debug_mesage
+cmdapi_debug.rb:11:  def self.debug_params
+cmdapi_debug.rb:29:  def self._debug level, description, *args
+cmdapi_debug.rb:91:  def self.show_restclient var_class, var_name, var_content, current_level
+cmdapi_debug.rb:134:  def self.show_apicommand var_name, var_content, color = {:master => :green, :secondary => :light_green}
+cmdapi_debug.rb:141:  def self.show_fixnum var_name, var_content
+cmdapi_debug.rb:147:  def self.show_boolean var_name, var_content
+cmdapi_debug.rb:153:  def self.show_nil var_name, var_content
+cmdapi_debug.rb:160:  def self.show_string var_name, var_content
+cmdapi_debug.rb:168:  def self.show_array var_name, var_content
+cmdapi_debug.rb:174:  def self.show_hash var_name, var_content, color = {:master => :cyan, :secondary => :light_cyan}
+cmdapi_debug.rb:189:  def self.inLogBlackLst? var_content
+cmdapi_debug.rb:205:  def self.inspect_variable variable, default=true
+cmdapi_debug.rb:213:    if default
+cmdapi_debug.rb:220:  # def self.debug *args
+cmdapi_debug.rb:241:  def self.show_variable name, variable, label, file, line
+cmdapi_debug.rb:269:  def self.set_trace_on
+cmdapi_debug.rb:320:  def self.set_trace_off
+cmdapi_debug.rb:324:  def self.clean_file_name file
+cmdapi_debug.rb:336:  def self.start_command method, positional_args, opt_hash
+cmdapi_debug.rb:346:  def self.stop_command method, result
+cmdapi_displayers.rb:5:  # def self.show_reset_tabs
+cmdapi_displayers.rb:9:  # def self.show_set_tabs num_tabs
+cmdapi_displayers.rb:13:  def self.show msg, color=:gray
+cmdapi_displayers.rb:29:  def self.show_same_line msg
+cmdapi_displayers.rb:33:  def self.show_info msg
+cmdapi_displayers.rb:37:  def self.show_warning msg
+cmdapi_displayers.rb:41:  def self.show_error msg
+cmdapi_displayers.rb:45:  def self.show_result method, result
+cmdapi_displayers.rb:69:  def self.show_config commandObject
+cmdapi_displayers.rb:75:  def self.show_command_tree
+cmdapi_helpers.rb:3:  def self.get_os_user
+cmdapi_helpers.rb:7:  def self.get_base_help
+cmdapi_helpers.rb:16:  def self.get_more_info
+cmdapi_helpers.rb:24:  def self.get_help
+cmdapi_helpers.rb:32:  def self.help_command command
+cmdapi_helpers.rb:52:  def self.get_help_cabec command
+cmdapi_helpers.rb:60:  def self.get_help_string command
+cmdapi_helpers.rb:75:  def self.get_help_command command
+cmdapi_helpers.rb:86:  def self.prepare_print_commands title, commands
+cmdapi_helpers.rb:135:  def self.print_commands title, commands
+cmdapi_helpers.rb:150:  def self.get_command_info
+cmdapi_lib.rb:10:  def initialize
+cmdapi_lib.rb:21:  def lib_use
+cmdapi_lib.rb:26:  def kinds_of?  arguments, opts
+cmdapi_lib.rb:32:  def validate arguments, opts
+cmdapi_lib.rb:39:  def base command, arguments, opts = []
+cmdapi_lib.rb:50:  def restful command, arguments, opts = []
+cmdapi_lib.rb:77:  def server arguments, opts = []
+cmdapi_restful.rb:4:  def self.restful_command command, params, opts
+cmdapi_server.rb:3:  def self.server_command params, opts
+cmdapi_util.rb:6:  def self.clear_cache
+cmdapi_util.rb:14:  def self.download_pem
+cmdapi_util.rb:21:  def self.purge_backup_config   # execupa o purge de todos os backup com mais de 14 dias
+cmdapi_util.rb:29:  def self.config_backup
+cmdapi_util.rb:35:  def self.daily_backup_config
+cmdapi_util.rb:51:  def self.create_config
+cmdapi_util.rb:69:  def self.insert_in_config command
+cmdapi_util.rb:88:  def self.valid_config?
+cmdapi_util.rb:112:  def self.check_config
+cmdapi_util.rb:164:      aux['cloud']["region_default"]  = "cta"
+cmdapi_util.rb:203:      aux['artifactory']['default_repo'] = 'prod'
+cmdapi_util.rb:212:      aux['gproxy']['default'] = 'PROXYCM'
+cmdapi_util.rb:250:      aux['napi']["endpoint_default"]  = "prod"
+cmdapi_util.rb:279:  def self.get_config command
+cmdapi_util.rb:300:  def initialize(options = {})
+cmdapi_util.rb:344:  def self.read_monkeys
+cmdapi_util.rb:353:  def self.get_date format='%e %B %Y, %H:%S'
+cmdapi_util.rb:358:  def self.scan_files path, directory_regex, type
+cmdapi_util.rb:376:  # def self.require_commands source
+cmdapi_util.rb:387:  # def self.load_commands
+cmdapi_util.rb:422:  def self.set_variable_ext variable, value
+cmdapi_util.rb:423:    if self.instance_variable_defined? ("@#{variable}")
+cmdapi_util.rb:442:  def self.get_plain_text value
+cmdapi_util.rb:459:  def self.set_variable variable, value
+cmdapi_util.rb:473:  def self.get_variable variable
+cmdapi_util.rb:487:  def self.show_variables
+cmdapi_util.rb:496:  def self.validate_command command
+cmdapi_util.rb:515:  def self.hash_value obj, key
+cmdapi_util.rb:521:  def self.nested_hash_value obj, key
+cmdapi_util.rb:532:  def self.check_ldap_user
+cmdapi_util.rb:553:  def self.hash_value obj, key
+cmdapi_util.rb:559:  def self.api?
+cmdapi_util.rb:565:  def self.yesno(prompt = 'Continue?', default = true)
+cmdapi_util.rb:567:    s = default ? '[Y/n]' : '[y/N]'
+cmdapi_util.rb:568:    d = default ? 'y' : 'n'
+cmdapi_util.rb:576:  def self.yna?(prompt = 'Continue?', default = true)
+cmdapi_util.rb:578:    # s = default ? '[Y/n/a/q]' : '[y/N/a/q]'
+cmdapi_util.rb:579:    d = default ? 'y' : 'n'
+cmdapi_util.rb:590:  def self.ask_prompt(prompt = '', hidden = true)
+cmdapi_util.rb:598:  def self.question questionary, mesage, question
+cmdapi_util.rb:603:    d = questionary[:default]
+cmdapi_util.rb:619:  def self.confirm_or_exit mesage, test
+cmdapi_util.rb:626:  def self.get_cmd_arguments(line,object=[])
+cmdapi_util.rb:645:  def self.ssh_connect server
+cmdapi_util.rb:665:  def self.exit_or_return? error_code=''
+cmdapi_util.rb:678:  def self.is_api?
+cmdapi_util.rb:682:  def self.exit? error=nil
+cmdapi_util.rb:693:  def self.get_path_plain_text path, logger
+cmdapi_util.rb:711:  def self.doreq(restclient_obj, path, method, caller, method_opts: {}, validate_opts: {}, retry_opts: {}, show_progress: false)
+cmdapi_util.rb:790:  def self.validate_decode_response response, request, result, validate_opts
+cmdapi_util.rb:817:  def self.load_graylog
+cmdapi_util.rb:835:  def self.check_version
+cmdapi_util.rb:888:  def self.show_params_globais command
+cmdapi_util.rb:894:  def self.set_params_globais
+cmdapi_util.rb:898:  def self.register_params_globals command
+cmdapi_util.rb:918:  def self.read_file source
+cmdapi_util.rb:928:  def self.uncolorize data=''
+cmdapi_util.rb:935:  def self.parse_screen commands, send_file, output
+cmdapi_util.rb:960:  def self.output_file data_to_file, file_name
+cmdapi_util.rb:973:      if file_name.eql? 'default'
+cmdapi_util.rb:986:  def self.output hash_result
+cmdapi_util.rb:1008:        CMDAPIUtil.show "\tOutput type error.: Unknow #{output} type. Change to default.".yellow
+cmdapi_util.rb:1032:  def self.extract_options!(args)
+cmdapi_util.rb:1036:  def self.extract_options(args)
+cmdapi_util.rb:1041:  def self.clean_screen 
+cmdapi_util.rb:1047:  def self.prompt *args 
+cmdapi_util.rb:1061:  def self.puppet_env? env 
+cmdapi_util.rb:1071:  def self.bigforce?
+cmdapi_util.rb:1080:  def self.replace_in_file file_name, search_string, replace_string
+cmdapi_util.rb:1089:  def self.exist_in_file? file_name, search_string
+cmdapi_util.rb:1107:  def self.caller caller_info, current_method=nil
+cmdapi_util.rb:1122:  def self.get_command_origin
+cmdapi_util.rb:1135:  def self.get_current_so_user
+cmdapi_util.rb:1139:  def self.get_current_ip 
+cmdapi_util.rb:1161:  def self.is_ldap? command, params, opts
+cmdapi_util.rb:1171:  def self.full?
+cmdapi_util.rb:1178:  def self.write_file path, file
+cmdapi_util.rb:1182:      if file_name.eql? 'default'
+cmdapi_util.rb:1198:  def self.log_and_show line, what='all'
+cmdapi_util.rb:1211:  def self.log_info msg
+cmdapi_util.rb:1215:  def self.log_warn msg
+cmdapi_util.rb:1219:  def self.log_error msg
+cmdapi_util.rb:1223:  def self.log_debug msg
+cmdapi_util.rb:1227:  def self.graylog tags='', command='No command.', short_message='No message.', long_message='No message.'
+cmdapi_util.rb:1242:  def self.set_log_level level
+cmdapi_util.rb:1247:  def self.write_samples
+cmdapi_util.rb:1252:  def self.set_secret secret='cmdapi'
+cmdapi_util.rb:1256:  def self.secret?
+cmdapi_util.rb:1261:  def self.encrypt plainBlock
+cmdapi_util.rb:1266:  def self.decrypt encryptedBlock
+cmdapi_util.rb:1278:  def self.split_param param, split_char='='
+cmdapi_util.rb:1284:  def self.set_config param
+cmdapi_util.rb:1288:        :default => 't',
+cmdapi_util.rb:1329:  def self.lib command, arguments=[], opts=[]
+commandbase.rb:12:  def self.install_commands
+commandbase.rb:27:  def self.inherited(child_class)
+commandbase.rb:48:  def self.get_command command
+commandbase.rb:61:  def self.get_server_command command
+commandbase.rb:71:  def self.get_commands
+commandbase.rb:75:  def self.get_server_commands
+commandbase.rb:79:  def self.get_restful_commands
+commandbase.rb:83:  def self.get_base_commands
+commandbase.rb:91:  def logger msg, args=[], level = 0
+commandbase.rb:112:  def logger1 msg
+commandbase.rb:116:  def logger2 msg
+commandbase.rb:120:  def logger3 msg, args
+commandbase.rb:124:  def logger_color msg, color=:white
+commandbase.rb:128:  def logger_color2 msg1, msg2, color1=:white, color2=:white
+commandbase.rb:151:  def refine manager, result
+tools.rb:2:#   def rblank
+tools.rb:10:#   def rblank!
+tools.rb:19:#   def rmerge(other_hash, concat_if_array = false)
+tools.rb:32:#   def rmerge!(other_hash, concat_if_array = false)
+tools.rb:49:#   def diff(other)
+tools.rb:66:#   def to_bool
+tools.rb:72:#   def nil?
+tools.rb:76:#   def fix(size, padstr=' ')
+tools.rb:80:#   def encrypt(key)
+tools.rb:88:#   def decrypt(key)
+tools.rb:99:#   def boolean?
+
+
+
+
+cmdapi_base.rb:3:  def self.base_command command, params, opts
+cmdapi_base.rb:15:      objectCommand.prepare self, params, opts
+cmdapi_base.rb:18:      result = objectCommand.command self
+cmdapi_base.rb:23:      result = objectCommand.refine self, result
+cmdapi_debug.rb:3:  def self.debug?
+cmdapi_debug.rb:7:  def self.debug_mesage debug_mesage
+cmdapi_debug.rb:11:  def self.debug_params
+cmdapi_debug.rb:29:  def self._debug level, description, *args
+cmdapi_debug.rb:46:    #         title = line.gsub(/\r/, '').gsub(/\n/, '').gsub(/\t/, '').gsub('(', '').gsub(')', '').gsub(self.name+'.'+__method__.to_s, '').split(',')
+cmdapi_debug.rb:91:  def self.show_restclient var_class, var_name, var_content, current_level
+cmdapi_debug.rb:134:  def self.show_apicommand var_name, var_content, color = {:master => :green, :secondary => :light_green}
+cmdapi_debug.rb:141:  def self.show_fixnum var_name, var_content
+cmdapi_debug.rb:147:  def self.show_boolean var_name, var_content
+cmdapi_debug.rb:153:  def self.show_nil var_name, var_content
+cmdapi_debug.rb:160:  def self.show_string var_name, var_content
+cmdapi_debug.rb:168:  def self.show_array var_name, var_content
+cmdapi_debug.rb:174:  def self.show_hash var_name, var_content, color = {:master => :cyan, :secondary => :light_cyan}
+cmdapi_debug.rb:189:  def self.inLogBlackLst? var_content
+cmdapi_debug.rb:205:  def self.inspect_variable variable, default=true
+cmdapi_debug.rb:220:  # def self.debug *args
+cmdapi_debug.rb:232:  #         title = line.gsub(/\r/, '').gsub(/\n/, '').gsub(/\t/, '').gsub('(', '').gsub(')', '').gsub(self.name+'.'+__method__.to_s, '').split(',')
+cmdapi_debug.rb:241:  def self.show_variable name, variable, label, file, line
+cmdapi_debug.rb:269:  def self.set_trace_on
+cmdapi_debug.rb:320:  def self.set_trace_off
+cmdapi_debug.rb:324:  def self.clean_file_name file
+cmdapi_debug.rb:336:  def self.start_command method, positional_args, opt_hash
+cmdapi_debug.rb:346:  def self.stop_command method, result
+cmdapi_displayers.rb:5:  # def self.show_reset_tabs
+cmdapi_displayers.rb:9:  # def self.show_set_tabs num_tabs
+cmdapi_displayers.rb:13:  def self.show msg, color=:gray
+cmdapi_displayers.rb:29:  def self.show_same_line msg
+cmdapi_displayers.rb:33:  def self.show_info msg
+cmdapi_displayers.rb:37:  def self.show_warning msg
+cmdapi_displayers.rb:41:  def self.show_error msg
+cmdapi_displayers.rb:45:  def self.show_result method, result
+cmdapi_displayers.rb:69:  def self.show_config commandObject
+cmdapi_displayers.rb:75:  def self.show_command_tree
+cmdapi_helpers.rb:3:  def self.get_os_user
+cmdapi_helpers.rb:7:  def self.get_base_help
+cmdapi_helpers.rb:16:  def self.get_more_info
+cmdapi_helpers.rb:24:  def self.get_help
+cmdapi_helpers.rb:32:  def self.help_command command
+cmdapi_helpers.rb:47:        self.get_help_command command
+cmdapi_helpers.rb:52:  def self.get_help_cabec command
+cmdapi_helpers.rb:60:  def self.get_help_string command
+cmdapi_helpers.rb:75:  def self.get_help_command command
+cmdapi_helpers.rb:86:  def self.prepare_print_commands title, commands
+cmdapi_helpers.rb:135:  def self.print_commands title, commands
+cmdapi_helpers.rb:150:  def self.get_command_info
+cmdapi_restful.rb:4:  def self.restful_command command, params, opts
+cmdapi_restful.rb:23:        objectCommand.prepare self, params, opts
+cmdapi_restful.rb:27:        result = objectCommand.command self
+cmdapi_restful.rb:33:        result = objectCommand.refine self, result
+cmdapi_server.rb:3:  def self.server_command params, opts
+cmdapi_server.rb:22:          command[:object].prepare self, params, opts
+cmdapi_server.rb:26:          command[:result] = command[:object].command self, params, opts
+cmdapi_server.rb:32:          command[:result] = command[:object].refine self, command[:result]
+cmdapi_util.rb:6:  def self.clear_cache
+cmdapi_util.rb:14:  def self.download_pem
+cmdapi_util.rb:21:  def self.purge_backup_config   # execupa o purge de todos os backup com mais de 14 dias
+cmdapi_util.rb:29:  def self.config_backup
+cmdapi_util.rb:35:  def self.daily_backup_config
+cmdapi_util.rb:51:  def self.create_config
+cmdapi_util.rb:69:  def self.insert_in_config command
+cmdapi_util.rb:88:  def self.valid_config?
+cmdapi_util.rb:112:  def self.check_config
+cmdapi_util.rb:279:  def self.get_config command
+cmdapi_util.rb:344:  def self.read_monkeys
+cmdapi_util.rb:353:  def self.get_date format='%e %B %Y, %H:%S'
+cmdapi_util.rb:358:  def self.scan_files path, directory_regex, type
+cmdapi_util.rb:376:  # def self.require_commands source
+cmdapi_util.rb:387:  # def self.load_commands
+cmdapi_util.rb:422:  def self.set_variable_ext variable, value
+cmdapi_util.rb:423:    if self.instance_variable_defined? ("@#{variable}")
+cmdapi_util.rb:424:      aux = self.get_variable variable
+cmdapi_util.rb:427:         self.set_variable variable, value
+cmdapi_util.rb:431:          self.set_variable variable, aux
+cmdapi_util.rb:437:        self.set_variable variable, aux
+cmdapi_util.rb:442:  def self.get_plain_text value
+cmdapi_util.rb:459:  def self.set_variable variable, value
+cmdapi_util.rb:470:    self.instance_variable_set("@#{variable}", value)
+cmdapi_util.rb:473:  def self.get_variable variable
+cmdapi_util.rb:481:       logger.info (self.instance_variable_get("@#{variable}"))
+cmdapi_util.rb:484:    return self.instance_variable_get("@#{variable}")
+cmdapi_util.rb:487:  def self.show_variables
+cmdapi_util.rb:488:    self.instance_variables.sort.each do |v|
+cmdapi_util.rb:491:        printf "\t %30s \t %s\n", variable.yellow, (self.get_variable variable).to_s.green
+cmdapi_util.rb:496:  def self.validate_command command
+cmdapi_util.rb:515:  def self.hash_value obj, key
+cmdapi_util.rb:521:  def self.nested_hash_value obj, key
+cmdapi_util.rb:532:  def self.check_ldap_user
+cmdapi_util.rb:553:  def self.hash_value obj, key
+cmdapi_util.rb:559:  def self.api?
+cmdapi_util.rb:560:    api = self.get_variable 'api'
+cmdapi_util.rb:562:    return self.get_variable 'api'
+cmdapi_util.rb:565:  def self.yesno(prompt = 'Continue?', default = true)
+cmdapi_util.rb:576:  def self.yna?(prompt = 'Continue?', default = true)
+cmdapi_util.rb:590:  def self.ask_prompt(prompt = '', hidden = true)
+cmdapi_util.rb:598:  def self.question questionary, mesage, question
+cmdapi_util.rb:619:  def self.confirm_or_exit mesage, test
+cmdapi_util.rb:626:  def self.get_cmd_arguments(line,object=[])
+cmdapi_util.rb:645:  def self.ssh_connect server
+cmdapi_util.rb:665:  def self.exit_or_return? error_code=''
+cmdapi_util.rb:678:  def self.is_api?
+cmdapi_util.rb:682:  def self.exit? error=nil
+cmdapi_util.rb:693:  def self.get_path_plain_text path, logger
+cmdapi_util.rb:711:  def self.doreq(restclient_obj, path, method, caller, method_opts: {}, validate_opts: {}, retry_opts: {}, show_progress: false)
+cmdapi_util.rb:790:  def self.validate_decode_response response, request, result, validate_opts
+cmdapi_util.rb:817:  def self.load_graylog
+cmdapi_util.rb:835:  def self.check_version
+cmdapi_util.rb:888:  def self.show_params_globais command
+cmdapi_util.rb:894:  def self.set_params_globais
+cmdapi_util.rb:898:  def self.register_params_globals command
+cmdapi_util.rb:918:  def self.read_file source
+cmdapi_util.rb:928:  def self.uncolorize data=''
+cmdapi_util.rb:935:  def self.parse_screen commands, send_file, output
+cmdapi_util.rb:960:  def self.output_file data_to_file, file_name
+cmdapi_util.rb:986:  def self.output hash_result
+cmdapi_util.rb:1032:  def self.extract_options!(args)
+cmdapi_util.rb:1036:  def self.extract_options(args)
+cmdapi_util.rb:1041:  def self.clean_screen 
+cmdapi_util.rb:1047:  def self.prompt *args 
+cmdapi_util.rb:1061:  def self.puppet_env? env 
+cmdapi_util.rb:1071:  def self.bigforce?
+cmdapi_util.rb:1080:  def self.replace_in_file file_name, search_string, replace_string
+cmdapi_util.rb:1089:  def self.exist_in_file? file_name, search_string
+cmdapi_util.rb:1107:  def self.caller caller_info, current_method=nil
+cmdapi_util.rb:1122:  def self.get_command_origin
+cmdapi_util.rb:1135:  def self.get_current_so_user
+cmdapi_util.rb:1139:  def self.get_current_ip 
+cmdapi_util.rb:1161:  def self.is_ldap? command, params, opts
+cmdapi_util.rb:1171:  def self.full?
+cmdapi_util.rb:1178:  def self.write_file path, file
+cmdapi_util.rb:1198:  def self.log_and_show line, what='all'
+cmdapi_util.rb:1211:  def self.log_info msg
+cmdapi_util.rb:1215:  def self.log_warn msg
+cmdapi_util.rb:1219:  def self.log_error msg
+cmdapi_util.rb:1223:  def self.log_debug msg
+cmdapi_util.rb:1227:  def self.graylog tags='', command='No command.', short_message='No message.', long_message='No message.'
+cmdapi_util.rb:1242:  def self.set_log_level level
+cmdapi_util.rb:1243:    self.set_variable 'log_level', level
+cmdapi_util.rb:1247:  def self.write_samples
+cmdapi_util.rb:1252:  def self.set_secret secret='cmdapi'
+cmdapi_util.rb:1256:  def self.secret?
+cmdapi_util.rb:1261:  def self.encrypt plainBlock
+cmdapi_util.rb:1266:  def self.decrypt encryptedBlock
+cmdapi_util.rb:1278:  def self.split_param param, split_char='='
+cmdapi_util.rb:1284:  def self.set_config param
+cmdapi_util.rb:1329:  def self.lib command, arguments=[], opts=[]
+commandbase.rb:12:  def self.install_commands
+commandbase.rb:27:  def self.inherited(child_class)
+commandbase.rb:48:  def self.get_command command
+commandbase.rb:61:  def self.get_server_command command
+commandbase.rb:71:  def self.get_commands
+commandbase.rb:75:  def self.get_server_commands
+commandbase.rb:79:  def self.get_restful_commands
+commandbase.rb:83:  def self.get_base_commands
+tools.rb:12:#       self[key] = val.rblank! if val.is_a?(Hash)
+tools.rb:50:#       (self.keys + other.keys).uniq.inject({}) do |memo, key|
+tools.rb:51:#         unless self[key] == other[key]
+tools.rb:52:#           if self[key].kind_of?(Hash) &&  other[key].kind_of?(Hash)
+tools.rb:53:#             memo[key] = self[key].diff(other[key])
+tools.rb:55:#             memo[key] = [self[key], other[key]] 
+tools.rb:67:#     return true if self.eql?('true')
+tools.rb:68:#     return false if self.eql?('false')
+tools.rb:73:#     return '' if self == nil
+tools.rb:77:#     self[0...size].rjust(size, padstr) #or ljust
+tools.rb:83:#     s = cipher.update(self) + cipher.final
+tools.rb:91:#     s = [self].pack("H*").unpack("C*").pack("c*")
+tools.rb:100:#     self.is_a?(TrueClass) || self.is_a?(FalseClass) 

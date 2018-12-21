@@ -1,0 +1,114 @@
+#!/usr/bin/env ruby
+# coding: utf-8
+require 'rubygems'
+require 'tools'
+
+
+#puts ToolsUtil.get_date
+
+# teste = 10
+# if teste.boolean?
+#   if teste
+#     puts "true"
+#   else
+#     puts "false"
+#   end
+# end
+
+
+# ToolsDisplay.show "teste", :green
+# ToolsDisplay.show "TEXT SAMELINE sem cor ", :sameline
+# ToolsDisplay.show "+ SAMELINE"
+# ToolsDisplay.show "TEXT SAMELINE com cor ", :sameline, :red
+# ToolsDisplay.show "TEXT GREEN", :green
+# ToolsDisplay.show "TEXT YELLOW", :yellow
+
+
+# msg       = "teste do encrypt".light_blue
+# passwd    = 'tools999'
+# encrypted = msg.encrypt passwd
+# puts (encrypted.decrypt passwd)
+
+
+# ip = `ifconfig | grep -F 10. | awk '{print $2}' | cut -d: -f2`
+# ip = ip.split("\n").first if ip.include? "\n"
+
+# ToolsDisplay.show (IPAddress.valid?(ip)).to_s, :yellow
+
+# ap ip
+
+# ret = ToolsNet.resolv_ip_name '8.8.8.8'
+# ap ret
+# dns = ToolsNet.resolv_dns 'www.globo.com'
+#ToolsDisplay.show dns
+
+
+
+
+
+ # ToolsLog.create_log_file 'xyko', '/home/francisco/2018/xykotools/tools/xyko.log'
+ # ToolsLog.xyko_info 'teste do methodo1', :light_yellow
+ # ToolsLog.xyko_warn 'teste do methodo2'
+ # ToolsLog.xyko_error 'teste do methodo3'
+ # ToolsLog.xyko_debug 'teste do methodo4'
+
+
+# ToolsFiles.create_dir Tools.home + '/2018/xykotools/tools/home', 'tools_home'
+# home = (ToolsUtil.get_variable 'tools_home')
+
+# ToolstoolConfig.load_config config_file
+# config = ToolsUtil.get_variable 'config_data'
+# ap config
+
+# ToolsConfig.insert_in_config config_file, {:info1 => "teste1"}
+# ToolsConfig.insert_in_config config_file, {:info2 => "teste1"}
+# ToolsConfig.insert_in_config config_file, {:info3 => "teste1"}
+# ToolsConfig.load_config config_file
+# config = ToolsUtil.get_variable 'config_data'
+# ap config
+
+
+# ToolsConfig.load_config home, 'config'
+# ToolsConfig.write_config home, 'config'
+
+
+# ToolsConfig.create_config_file '/home/francisco/2018/xykotools/tools', 'config'
+# config_file = (ToolsUtil.get_variable 'config_file_location')
+
+
+# data = {
+#     "graylogx" => {
+#         "status" => false
+#     }
+# }
+
+# data2 = {"cmdapi" => {
+#           "graylogy" => {
+#             "status" => false,
+#             'teste' => 100,
+#         }
+#       }}
+
+# ToolsConfig.insert_in_config config_file, data
+# ToolsConfig.insert_in_config config_file, data2
+
+# config = ToolsConfig.load_config config_file
+
+
+# ap config
+
+
+
+# ToolsCache.create_cache_file 'xyko', '/home/francisco/2018/xykotools/tools'
+
+# data = {:key => '100', }
+
+# ToolsCache.xyko_set data
+# ToolsCache.xyko_unset data
+
+
+# ToolsConfig.create_config_file 'glbapi', '/home/francisco/.glbapi/glbapi.config'
+
+# k = 'teste_xxx'
+# pattern = { "status": Integer}
+# ToolsConfig.insert_in_config "/home/francisco/.newcmdapi/cmdapi.config", {'cmdapi' => {"#{k}" => pattern}}

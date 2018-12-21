@@ -1,0 +1,84 @@
+#!/usr/bin/env ruby
+# coding: utf-8
+require 'tools'
+require 'thor'
+
+Signal.trap("INT") {
+  puts "\n\tNote: You will typically use Signal.trap instead.\n".light_red
+  exit
+}
+
+Signal.trap("TERM") {
+  puts "\n\tNote: You will typically use Signal.trap instead.\n".light_red
+  exit
+}
+
+load Tools.files + '/requireds.rb'
+
+class Tools_exec < Thor
+
+  desc 'help', ''
+  def help(command='')
+    puts "\tHELP will be here..... Coming soon....".light_green
+
+  end
+
+  desc 'show', ''
+  def show(command='')
+    puts "Gem_path.:  #{Tools.gem_path}"
+    puts "Ldap_pass.: #{Tools.ldap_pass}"
+    puts "Ldap_user.: #{Tools.ldap_user}"
+    puts "User.:      #{Tools.user}"
+    puts "Pwd.:       #{Tools.pwd}"
+    puts "Host.:      #{Tools.host}"
+    puts "Files:      #{Tools.files}"
+  end
+
+  desc 'config', ''
+  def config
+  ap 'config'
+  #    ToolsConfig.config
+  end
+
+
+  desc 'console', ''
+  def console
+    ap 'console'
+    #ToolsConsole.create_console
+    #ToolsConsole.run_console
+  end
+
+
+  def method_missing(method, *args, &block)
+
+
+  #   ap method
+  # ap args.extract_option '-v', false    #=> 8
+  # ap args.extract_option '-x'           #=> true
+  # ap args.extract_option '-f'           #=> false
+  # ap args.extract_symbol :json          #=> true
+  # ap args.extract_symbol :yaml          #=> false
+  # ap args.extract_color                 #=> :yellow
+  # ap args.extract_color                 #=> red
+  # ap args.extract_option_value '--class' #=> 'tools'
+  # ap args                               #=> [-c -vcv -v2 -s ]
+
+
+      ToolsDisplay.show "To export ldap variables use:        ".fix(60,'.'), :cyan
+      ToolsDisplay.show "export ldap_user=<your_ldap_login>   ".fix(65,'.'), :cyan
+      ToolsDisplay.show "export ldap_pass=<your_ldap_password>".fix(65,'.'), :cyan
+
+
+    exit()
+  end
+
+end
+
+begin
+  Tools_exec.start(ARGV)
+rescue SystemExit => e
+  puts "\tExiting tools gem... See you later...".light_green
+  exit(e.status)
+rescue Exception => e
+  puts e
+end

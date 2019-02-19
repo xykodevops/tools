@@ -100,6 +100,30 @@ class ToolsUtil
 
 
 
+  # Return a plain text for content of String or Hash or Array.
+  #
+  # @param   value  Content of variable to translate to Plaint text
+  # @return  plain text content
+  def self.get_plain_text value
+   case value.class.to_s
+      when 'String'
+        return  "\t#{value.yellow}"
+      when 'Hash','Array'
+        old_stdout = $stdout
+        captured_stdio = StringIO.new('', 'w')
+        $stdout = captured_stdio
+        ap value, {:plain => true}
+        $stdout = old_stdout
+        value = captured_stdio.string
+        return value
+      else
+        return value
+      end
+  end
+
+
+
+
 ##### sem minitest
 
   def self.purge_files path, select, time #Cmdapi.configuration.home+'/.cmdapi/backup', '*',   14*24*60*60

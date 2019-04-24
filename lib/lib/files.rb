@@ -49,18 +49,26 @@ class ToolsFiles
   #
   #  Sample
   #
-  #  ToolsFiles.load_file xyko, file_to_load
-  #  xyko = (ToolsUtil.get_variable 'xyko_file') => ~/2018/xykotools/tools/home/xyko_file.txt
-  #
-  # @param file_name
-  # @param file_name_path
+  #  ToolsFiles.load_file file_to_load
+  # @param File Object
   # @return
-  def self.load_file file_key, file_to_load
+  def self.load_file file_to_load
     if File.exists? file_to_load
-      file = File.open( complete_file , 'r')
+      file = File.open( file_to_load , 'r')
       return file
     end
   end
 
+  def self.open_file file, default_editor=nil
+    begin
+      if default_editor.nil?
+        TTY::Editor.open( file, command: :vi)
+      else
+        TTY::Editor.open( file, command: default_editor)
+      end
+    rescue Exception => e
+      return e
+    end
+  end
 
 end

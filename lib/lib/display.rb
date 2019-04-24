@@ -17,10 +17,10 @@ class ToolsDisplay
       return post.class.to_s
     end
 
-    color     = arguments.extract_color
-    sameline  = arguments.extract_symbol :sameline
-    nocolor   = arguments.extract_symbol :nocolor
-    colorized = arguments.extract_symbol :colorized
+    color      = arguments.extract_color
+    sameline   = arguments.extract_symbol :sameline
+    nocolor    = arguments.extract_symbol :nocolor
+    colorized  = arguments.extract_symbol :colorized
 
     unless sameline
       post += "\n"
@@ -34,8 +34,10 @@ class ToolsDisplay
         printf "#{post}"
       end
     end
-
   end
 
+  def self.show_colorize *arguments
+    puts arguments.first
+  end
 
 end

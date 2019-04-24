@@ -3,6 +3,18 @@ class ToolsNet
   include Singleton
 
 
+  def self.get_current_ip
+    # begin
+    #   ip = Socket::getaddrinfo(Socket.gethostname, "echo", Socket::AF_INET)[0][3]
+    #   return ip if IPAddress.valid?(ip)
+    # rescue Exception => e
+    # end
+    ip = `ifconfig | grep -E '10\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'  | awk '{print $2}'`
+    ip = ip.split("\n").first if ip.include? "\n"
+    return ip if IPAddress.valid?(ip)
+  end
+
+
   # Resolv a ip to a dns.
   #
   # @param           ip variable ip to resolv
@@ -13,7 +25,12 @@ class ToolsNet
       ret = Resolv.new.getname(ip)
       return ret.instance_variable_get('@labels').join('.')
     rescue Exception => e
-      s = 'edi error: ' + e.message
+      case e.message
+        when "Dnsruby::NXDomain"
+          return nil
+        else
+          return e.message
+      end
     end
     return s.strip
   end
@@ -30,9 +47,9 @@ class ToolsNet
     rescue Exception => e
       case e.message
         when "Dnsruby::NXDomain"
-          ret = nil
+          return nil
         else
-          ret = e.message
+          return e.message
       end
     end
     return ret
@@ -52,12 +69,11 @@ class ToolsNet
   # @param restclient_obj Rest Object
   # @param path           path
   # @param method         method
-  # @param caller         caller
   # @param method_opts    method opts
   # @param validate_opts  validate opts
   # @param retry_opts     retry opts
   # @param show_progress  default false
-  def self.doreq( restclient_obj, path, method, caller, method_opts: {},validate_opts: {}, retry_opts: {}, show_progress: false)
+  def self.doreq( restclient_obj, path, method, method_opts: {},validate_opts: {}, retry_opts: {}, show_progress: false)
     res = nil
     code = nil
     data = method_opts.fetch(:data, nil)
@@ -76,7 +92,6 @@ class ToolsNet
           code = result.code.to_i
         end
       rescue Exception => error
-        ap error
         flag_error = true
       end
       # Other conditionals to retry
@@ -101,7 +116,6 @@ class ToolsNet
       end
     end
   end
-
 
   # Return a valid decode response.
   #
@@ -136,6 +150,105 @@ class ToolsNet
     end
     return true
   end
+
+
+  # Validate.: port number between valid range?.
+  #
+  # @param            port number to be validate.
+  # @return [Boolean]
+  def self.valid_port? port
+    if port.to_s.strip.match(/^\d{1,5}(?!\d)$/).nil?
+      return false
+    end
+    unless port.to_i.between?(1, 65535)
+      return false
+    end
+    return true
+  end
+
+
+
+  # Validate.: ip number or mask are valids?.
+  #
+  # @param  ip number or mask to be validate.
+  # @return [Hash] result info ip or ask or error
+  def self.validate_ipaddress that
+    result = {}
+    result[:status]  = false
+    result[:type]    = ''
+    result[:msg]     = ''
+    result[:address] = that
+    result[:resolv]  = ''
+
+    if IPAddress::valid_ipv4? that
+      begin
+        ip = IPAddress::valid_ipv4? that
+        result[:status] = true
+        result[:type]   = 'ip'
+        result[:oct1]   = that.split('.')[0]
+        result[:oct2]   = that.split('.')[1]
+        result[:oct3]   = that.split('.')[2]
+        result[:oct4]   = that.split('.')[3]
+      rescue Exception => e
+        result[:msg]    = e.to_s
+        return
+      end
+    else
+      begin
+        net = NetAddr::CIDR.create that
+        result[:type]   = 'mask'
+        result[:status] = true
+      rescue Exception => e
+        ip = resolv_dns that
+        if IPAddress::valid_ipv4? ip
+          result[:status] = true
+          result[:type]   = 'ip'
+          result[:oct1]   = ip.split('.')[0]
+          result[:oct2]   = ip.split('.')[1]
+          result[:oct3]   = ip.split('.')[2]
+          result[:oct4]   = ip.split('.')[3]
+        else
+          result[:msg] = e.to_s
+        end
+      end
+    end
+    return result
+  end
+
+
+  # Validate.: ip number is a backend?.
+  #
+  # @param  ip number to be validate.
+  # @return [Boolean]
+  def self.is_backend? original_addr
+    glbbackend  = NetAddr::CIDR.create('10.0.0.0/8')
+    return glbbackend.contains? original_addr
+  end
+
+  def self.valid_ip? original_addr
+    status = false
+    begin
+      status = IPAddress.valid?(original_addr)
+    rescue
+    end
+    return status
+  end
+
+  # Validate.: ip number is avalid network.
+  #
+  # @param  network number to be validate.
+  # @return [Boolean]
+  def self.valid_network? original_addr
+    status = false
+    begin
+      ip = IPAddress original_addr
+      status = true if ip.network?
+    rescue
+    end
+    return status
+  end
+
+
 
 
 end

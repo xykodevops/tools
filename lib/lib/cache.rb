@@ -10,37 +10,120 @@ class ToolsCache
   #
   # @param arguments
   # @return
-  def self.create_cache_file cache_name, cache_dir
-
-    unless File.exists? cache_dir
-     ToolsLog.tools_error "Invalid directory in new config file in '#{cache_dir}'.", :light_red
-     ToolsLog.tools_exit
-    end
-    unless cache_dir.end_with? '/'
-      cache_dir += '/'
-    end
-
-    cache_file = cache_dir +  cache_name + '.cache'
-    if File.exists? cache_file
-     ToolsLog.tools_error "The cache file in '#{cache_file}' already exists. Leaving operation...", :light_yellow
-    else
-      ToolsFiles.create_file cache_dir, cache_name, "cache_#{cache_name}"
-    end
-
+  def self.create_cache_file cache_name, cache_file, ttl=nil
+    cache = Persistent::Cache.new(cache_file, ttl)
+    ToolsUtil.set_variable "#{cache_name}_cache", cache
   end
 
+
+  # Add a record in a cache work area
+  #
+  #  Sample
+  #
+  # ToolsCache.create_cache_file 'cmdapi', '/home/francisco/.newcmdapi/cmdapi-persistent.cache'
+  # cache = ToolsUtil.get_variable 'cmdapi_cache'
+  # cache.clear
+  # ToolsCache.cmdapi_set :ldap, {:rogerio  => {:name => 'rogerio'}}
+  # ToolsCache.cmdapi_set :ldap, {:wagner => {:name => 'wagner'}}
+  # ToolsCache.cmdapi_set :cloud, [100,200]
+  # ToolsCache.cmdapi_set :cloud, 300
+  # ToolsCache.cmdapi_set :cloud, [300,500,'teste']
+  # ToolsCache.cmdapi_set :cloud, "teste2"
+  # ToolsCache.cmdapi_set :cloud, {:teste => 1}
+  # ToolsCache.cmdapi_set :nat, "texto para nat"
+  # ToolsCache.cmdapi_set :nat, "texto para nat_ depois da primeira"
+  # ToolsCache.cmdapi_unset :nat
+  # ToolsCache.cmdapi_set :nat, "texto para nat_ depois da primeira"
+  #
+  # @param cache_name
+  # @param cache_method
+  # @return
   def self.method_missing(method, *args, &block)
-    #expected call format =>    STRING_LOGGER_TYPE + '_' + LOGGER_TYPE
-    # Ex.:  tools_info
+
     cache_name   = method.to_s.split('_').first
     cache_method = method.to_s.split('_').last
-    cache_file   = ToolsUtil.get_variable "cache_#{cache_name}"
+    cache        = ToolsUtil.get_variable "#{cache_name}_cache"
 
-    ap cache_name
-    ap cache_method
-    ap cache_file
-    ap args
-    ap block
+    case cache_method
+
+    when 'set'
+      key    = args.extract_first
+      values = args.extract_first
+      unless cache.key?(key)
+        cache[key] = values
+      else
+        aux = cache[key]
+        case aux.class.to_s
+        when 'Hash'
+          begin
+            aux.merge! values
+            cache[key] = aux
+          rescue Exception => e
+            log_file =  ToolsUtil.get_variable "#{logger_name}_log_file"
+            ToolsDisplay.show "\tError in ToolsCache:  #{e.exception}", :light_yellow
+            exit
+          end
+        when 'Array'
+          aux = cache[key]
+          case values.class.to_s
+          when 'Array'
+            values.each do |value|
+              aux.insert(-1,value)
+            end
+            cache[key] = aux
+          else
+            aux.insert(-1,values)
+            cache[key] = aux
+          end
+        end
+
+      end
+
+    # when 'set'
+    #   key        = args.extract_first
+    #   value      = args.extract_first
+    #   cache.set(key, value, Time.now)
+
+    when 'setext'
+      key        = args.extract_first
+      values     = args.extract_first
+      unless cache.key?(key)
+        ToolsCache.cmdapi_set key, values
+      else
+        aux = cache[key]
+        values.keys.each do |value|
+          aux[value] = values[value]
+        end
+        ToolsCache.cmdapi_set key, aux
+      end
+
+    when 'unsetext'
+      key          = args.extract_first
+      key_internal = args.extract_first
+      if cache.key?(key)
+        aux = cache[key]
+        if aux.key? key_internal
+          aux
+        end
+      end
+
+
+    when 'unset'
+      key = args.extract_first
+      cache[key] = nil
+
+    when 'get'
+      key = args.extract_first
+      return cache[key]
+
+    when 'list'
+      result = {}
+      cache.each do |key|
+        result[key] = cache[key]
+      end
+      return result
+
+    end
 
   end
 

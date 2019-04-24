@@ -10,6 +10,7 @@ require 'lib/files'
 require 'lib/config'
 require 'lib/log'
 require 'lib/cache'
+require 'lib/prompt'
 
 # require 'lib/console'
 

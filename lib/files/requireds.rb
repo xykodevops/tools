@@ -25,4 +25,7 @@ require 'tty-prompt'
 require 'xmlsimple'
 require 'thor'
 require 'yaml'
+require 'persistent-cache'
+require 'tty-editor'
+require 'tty-prompt'
 include Dnsruby

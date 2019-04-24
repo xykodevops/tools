@@ -54,13 +54,21 @@ class ToolsLog
           color = :green
         when 'error'
           color = :light_red
+        when 'ucolor'
+          color = nil
+          logger_method = 'info'
         when 'exit'
           log_file =  ToolsUtil.get_variable "#{logger_name}_log_file"
           ToolsDisplay.show "\tError in ToolsUtil. See details in '#{log_file}'", :light_yellow
           exit
       end
     end
-    logger.method(logger_method).call args.first.colorize(color)
+    unless color.nil?
+      text_to_print = args.first.colorize(color)
+    else
+      text_to_print = args.first
+    end
+    logger.method(logger_method).call text_to_print
   end
 
 end

@@ -9,8 +9,23 @@ class ToolsUtil
     ToolsFiles.instance
     ToolsConfig.instance
     ToolsLog.instance
+    ToolsPrompt.instance
     tools_logfile = Tools.home+'/.tools/tools.log'
     ToolsLog.create_log_file 'tools', tools_logfile
+  end
+
+
+  # Capture string from a prompt.
+  #
+  # @param  prompt
+  # @param  hidden option
+  # @return String
+  def self.ask_prompt(prompt = '', hidden = true)
+    if hidden
+      a = ask("#{prompt}") { |q| q.echo = "*"; } #q.case = :downcase }
+    else
+      a = ask("#{prompt}") #{ |q| q.case = :downcase }
+    end
   end
 
   # Test a valid json string.
@@ -93,12 +108,17 @@ class ToolsUtil
   # @param   variable   variable name to retrive
   # @return  boolean
   def self.instance_variable? variable
-    ap self.instance_variables
-    exit
-    return self.instance_variable_get("@#{variable}")
+    # ap self.instance_variables.include? variable.to_sym
+    # exit
+    return self.instance_variable_get(":@#{variable}")
   end
 
-
+  # Get all existent class variablea.
+  #
+  # @return     variables
+  def self.get_variables
+    return self.instance_variables
+  end
 
   # Return a plain text for content of String or Hash or Array.
   #
@@ -250,6 +270,20 @@ class String
     Encrypt.load self, key
   end
 
+  # Self test numeric String class.
+  #
+  # @return   boolean
+  def numeric?
+    Float(aux) != nil rescue false
+  end
+
+  # Self test digits String class.
+  #
+  # @return   boolean
+  def num?
+    !!match(/^[[:digit:]]+$/)
+  end
+
   # Self test alphanum String class.
   #
   # @return   boolean
@@ -399,7 +433,7 @@ class Array
   def extract_option_value option
     result = false
     value  = nil
-    if self.include? option
+    while self.include? option
       index = self.index(option)
       self.delete_at(index)
       result = true
@@ -408,8 +442,5 @@ class Array
     end
     return [result, value]
   end
-
-
-
 
 end

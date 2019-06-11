@@ -161,6 +161,27 @@ class ToolsConfig
     end
   end
 
+  # Change data in config file in work area
+  # @param source
+  # @param value
+  # @param args. Sequence keys to locate the value in hash
+  def self.change_value_in_config *args
+    source = args.extract_first
+    value  = args.extract_first
+    test_config_type source
+    case ToolsUtil.get_variable 'config_file_type'
+    when :json
+      file = open(source)
+      json = file.read
+      parsed = JSON.parse(json)
+      parsed.nested_set(args, value)
+      file.close
+      file = open(source, 'w')
+      file.write JSON.pretty_generate(parsed)
+      file.close
+    when :yaml
+    end
+  end
 
 
   def self.validate_config

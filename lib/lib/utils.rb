@@ -219,6 +219,36 @@ class Hash
 end
 
 
+class Hash
+
+    # ensures nested hash from keys, and sets final key to value
+    # keys: Array of Symbol|String
+    # value: any
+    def nested_set(keys, value)
+      raise "DEBUG: nested_set keys must be an Array" unless keys.is_a?(Array)
+
+      final_key = keys.pop
+      return unless valid_key?(final_key)
+      position = self
+      for key in keys
+        return unless valid_key?(key)
+        position[key] = {} unless position[key].is_a?(Hash)
+        position = position[key]
+      end
+      position[final_key] = value
+    end
+
+    private
+
+      # returns true if key is valid
+      def valid_key?(key)
+        return true if key.is_a?(Symbol) || key.is_a?(String)
+        raise "DEBUG: nested_set invalid key: #{key} (#{key.class})"
+      end
+
+end
+
+
 class String
 
   # Self test nil String class.

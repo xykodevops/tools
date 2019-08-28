@@ -26,13 +26,16 @@ class ToolsConfig
       case config_type
       when :json
         config = File.open(config_file, 'w')
-        #data = {}
-        ap data
         config.write JSON.pretty_generate(data)
         config.close
         ToolsLog.tools_info "Json config file '#{config_file}' was created!'"
         return true
       when :yaml
+        config = File.open(config_file, 'w')
+        config.write data.to_yaml
+        config.close
+        ToolsLog.tools_info "Json config file '#{config_file}' was created!'"
+        return true
       end
     else
       ToolsLog.tools_warn "The file #{config_file} really exist. leaving operation...."
@@ -49,61 +52,8 @@ class ToolsConfig
     config_method = method.to_s.split('_').last
     config_file   = ToolsUtil.get_variable "#{config_name}_config_file"
     config_type   = ToolsUtil.get_variable "#{config_name}_config_type"
-
-
   end
 
-
-
-
-  # Create a config file in work area
-  #
-  # @param arguments
-  # @return
-  def self.create_config_file_old *arguments
-    directory = arguments.extract_first
-    file_name = arguments.extract_first
-
-    if arguments.extract_symbol :json
-      config_type = :json
-    else
-      if arguments.extract_symbol :yaml
-        config_type = :yaml
-      else
-        config_type = :default
-      end
-    end
-    config_type = :json if config_type.eql? :default
-    ToolsLog.tools_info "Setting config_type to '#{config_type}!'"
-    ToolsUtil.set_variable 'config_file_type', config_type
-
-    unless File.exists? directory
-     ToolsLog.tools_error "Invalid directory in new config file in '#{directory}'.", :light_red
-     ToolsLog.tools_exit
-    end
-    unless directory.end_with? '/'
-      directory += '/'
-    end
-    config_file_location = directory + file_name
-    ToolsUtil.set_variable 'config_file_location', config_file_location
-    ToolsLog.tools_info "Setting config_file_location to '#{config_file_location}!'"
-
-    unless File.exists? config_file_location
-      case config_type
-      when :json
-        config_file = File.open(config_file_location, 'w')
-        config = {}
-        config_file.write JSON.pretty_generate(config)
-        config_file.close
-        ToolsLog.tools_info "Json config file created!'"
-        return true
-      when :yaml
-      end
-    else
-      ToolsLog.tools_warn "The file #{config_file_location} really exist. leaving operation...."
-    end
-
-  end
 
   # Test and register a config file in work area
   # @param source
@@ -139,6 +89,10 @@ class ToolsConfig
       ToolsUtil.set_variable 'config_data', parsed
       return parsed
     when :yaml
+      file    = open(source)
+      parsed = YAML.load(file.read)
+      ToolsUtil.set_variable 'config_data', parsed
+      return parsed
     end
   end
 
@@ -147,9 +101,9 @@ class ToolsConfig
   # @return content
   def self.insert_in_config source, command
     test_config_type source
+    file = open(source)
     case ToolsUtil.get_variable 'config_file_type'
     when :json
-      file = open(source)
       json = file.read
       parsed = JSON.parse(json)
       parsed.rmerge!(command)
@@ -158,6 +112,13 @@ class ToolsConfig
       file.write JSON.pretty_generate(parsed)
       file.close
     when :yaml
+      yaml = file.read
+      parsed = YAML.load(yaml)
+      parsed.rmerge!(command)
+      file.close
+      file = open(source, 'w')
+      file.write parsed.to_yaml
+      file.close
     end
   end
 
@@ -180,6 +141,14 @@ class ToolsConfig
       file.write JSON.pretty_generate(parsed)
       file.close
     when :yaml
+      file = open(source)
+      yaml = file.read
+      parsed = YAML.load(yaml)
+      parsed.nested_set(args, value)
+      file.close
+      file = open(source, 'w')
+      file.write parsed.to_yaml
+      file.close
     end
   end
 

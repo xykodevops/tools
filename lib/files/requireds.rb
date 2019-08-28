@@ -28,4 +28,6 @@ require 'yaml'
 require 'persistent-cache'
 require 'tty-editor'
 require 'tty-prompt'
+require 'similar_text'
+require 'progress_bar'
 include Dnsruby

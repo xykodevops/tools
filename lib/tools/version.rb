@@ -1,4 +1,4 @@
 module Tools
-  VERSION = "0.2.0"
+  VERSION = "0.3.4"
   HOMEPAGE = "https://github.com/Xyko/tools"
 end

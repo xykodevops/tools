@@ -42,6 +42,8 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'encrypt'
   spec.add_runtime_dependency 'persistent-cache'
   spec.add_runtime_dependency 'tty-editor'
+  spec.add_runtime_dependency 'similar_text'
+  spec.add_runtime_dependency 'progress_bar'
   spec.required_ruby_version = '>= 2.4.0'
 
 end

@@ -460,17 +460,31 @@ class Array
     return result
   end
 
-  def extract_option_value option
+  def extract_option_value option, multiple=false
     result = false
-    value  = nil
-    while self.include? option
-      index = self.index(option)
-      self.delete_at(index)
-      result = true
-      value = self.at(index)
-      self.delete_at(index)
+    if multiple
+      multiple_value = []
+      while self.include? option
+        index = self.index(option)
+        self.delete_at(index)
+        result = true
+        value = self.at(index)
+        multiple_value << self.at(index).split('=').first
+        multiple_value << self.at(index).split('=').last
+        self.delete_at(index)
+      end
+      return [result, multiple_value]
+    else
+      value  = nil
+      while self.include? option
+        index = self.index(option)
+        self.delete_at(index)
+        result = true
+        value = self.at(index)
+        self.delete_at(index)
+      end
+      return [result, value]
     end
-    return [result, value]
   end
 
 end

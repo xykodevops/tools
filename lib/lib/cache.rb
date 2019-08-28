@@ -107,7 +107,6 @@ class ToolsCache
         end
       end
 
-
     when 'unset'
       key = args.extract_first
       cache[key] = nil
@@ -123,6 +122,10 @@ class ToolsCache
       end
       return result
 
+    when 'clear'
+       cache.each do |key|
+        cache[key] = nil
+      end
     end
 
   end

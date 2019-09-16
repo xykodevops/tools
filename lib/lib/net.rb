@@ -2,6 +2,9 @@ require 'singleton'
 class ToolsNet
   include Singleton
 
+  def self.ping? host
+    return Net::Ping::External.new(host || '0.0.0.1000', timeout=1).ping?
+  end
 
   def self.get_current_ip
     # begin

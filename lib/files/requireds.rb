@@ -30,4 +30,5 @@ require 'tty-editor'
 require 'tty-prompt'
 require 'similar_text'
 require 'progress_bar'
+require 'net/ping'
 include Dnsruby

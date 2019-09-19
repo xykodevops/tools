@@ -480,17 +480,26 @@ class Array
     return result
   end
 
-  def extract_option_value option, multiple=false
+  def extract_option_value option, args={}
+
+    if args[:multiple].nil?
+      args[:multiple] = false
+    end
+
+    if args[:separator].nil?
+      args[:separator] = '='
+    end
+
     result = false
-    if multiple
+    if args[:multiple]
       multiple_value = []
       while self.include? option
         index = self.index(option)
         self.delete_at(index)
         result = true
         value = self.at(index)
-        multiple_value << self.at(index).split('=').first
-        multiple_value << self.at(index).split('=').last
+        multiple_value << self.at(index).split(args[:separator]).first
+        multiple_value << self.at(index).split(args[:separator]).last
         self.delete_at(index)
       end
       return [result, multiple_value]

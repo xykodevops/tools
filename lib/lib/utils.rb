@@ -348,6 +348,17 @@ class String
     !!match(/^[[:alpha:]]+$/)
   end
 
+  def help?
+    if self.eql? '?'      or
+       self.eql? '-h'     or
+       self.eql? '--help' or
+       self.eql? 'help'
+       return true
+    else
+      return false
+    end
+  end
+
 end
 
 
@@ -384,6 +395,14 @@ class Object
   def string?
     self.is_a?(String)
   end
+
+  # Self test nil Object class.
+  #
+  # @return   boolean
+  def nil?
+    return '' if self == nil
+  end
+
 end
 
 class Array

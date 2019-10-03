@@ -10,10 +10,12 @@ class ToolsUtil
     ToolsConfig.instance
     ToolsLog.instance
     ToolsPrompt.instance
+    unless File.exists? Tools.home+'/.tools'
+      FileUtils.mkdir_p(Tools.home+'/.tools')
+    end
     tools_logfile = Tools.home+'/.tools/tools.log'
     ToolsLog.create_log_file 'tools', tools_logfile
   end
-
 
   # Synbolize all keys in hash.
   #

@@ -5,10 +5,234 @@ require 'tools'
 
 
 
-r = ToolsPrompt.yes? 'Do you like Ruby?'
-ap r
-r = ToolsPrompt.ask 'What is your name?', default: ENV['USER']
-ap r
+# class Filesize
+#   include Comparabletool
+
+#   TYPE_PREFIXES = {
+#     # Unit prefixes used for SI file sizes.
+#     :SI => %w{k M G T P E Z Y},
+#     # Unit prefixes used for binary file sizes.
+#     :BINARY => %w{Ki Mi Gi Ti Pi Ei Zi Yi}
+#   }
+
+#   # @deprecated Please use TYPE_PREFIXES[:SI] instead
+#   PREFIXES = TYPE_PREFIXES[:SI]
+
+#   # Set of rules describing file sizes according to SI units.
+#   SI = {
+#     :regexp => /^([\d,.]+)?\s?([kmgtpezy]?)b$/i,
+#     :multiplier => 1000,
+#     :prefixes => TYPE_PREFIXES[:SI],
+#     :presuffix => '' # deprecated
+#   }
+#   # Set of rules describing file sizes according to binary units.
+#   BINARY = {
+#     :regexp => /^([\d,.]+)?\s?(?:([kmgtpezy])i)?b$/i,
+#     :multiplier => 1024,
+#     :prefixes => TYPE_PREFIXES[:BINARY],
+#     :presuffix => 'i' # deprecated
+#   }
+
+#   # @param [Number] size A file size, in bytes.
+#   # @param [SI, BINARY] type Which type to use for conversions.
+#   def initialize(size, type = BINARY)
+#     @bytes = size.to_i
+#     @type  = type
+#   end
+
+#   # @return [Number] Returns the size in bytes.
+#   def to_i
+#     @bytes
+#   end
+#   alias_method :to_int, :to_i
+
+#   # @param [String] unit Which unit to convert to.
+#   # @return [Float] Returns the size in a given unit.
+#   def to(unit = 'B')
+#     to_parts = self.class.parse(unit)
+#     prefix   = to_parts[:prefix]
+
+#     if prefix == 'B' or prefix.empty?
+#       return to_i.to_f
+#     end
+
+#     to_type = to_parts[:type]
+#     size    = @bytes
+
+#     pos = (@type[:prefixes].map { |s| s[0].chr.downcase }.index(prefix.downcase) || -1) + 1
+
+#     size = size/(to_type[:multiplier].to_f**(pos)) unless pos < 1
+#   end
+#   alias_method :to_f, :to
+
+#   # @param (see #to_f)
+#   # @return [String] Same as {#to_f}, but as a string, with the unit appended.
+#   # @see #to_f
+#   def to_s(unit = 'B')
+#     "%.2f %s" % [to(unit).to_f.to_s, unit]
+#   end
+
+#   # Same as {#to_s} but with an automatic determination of the most
+#   # sensible unit.
+#   #
+#   # @return [String]
+#   # @see #to_s
+#   def pretty
+#     size = @bytes
+#     if size < @type[:multiplier]
+#       unit = "B"
+#     else
+#       pos = (Math.log(size) / Math.log(@type[:multiplier])).floor
+#       pos = @type[:prefixes].size-1 if pos > @type[:prefixes].size - 1
+
+#       unit = @type[:prefixes][pos-1] + "B"
+#     end
+
+#     to_s(unit)
+#   end
+
+#   # @return [Filesize]
+#   def +(other)
+#     self.class.new(@bytes + other.to_i, @type)
+#   end
+
+#   # @return [Filesize]
+#   def -(other)
+#     self.class.new(@bytes - other.to_i, @type)
+#   end
+
+#   # @return [Filesize]
+#   def *(other)
+#     self.class.new(@bytes * other.to_i, @type)
+#   end
+
+#   # @return [Filesize]
+#   def /(other)
+#     result = @bytes / other.to_f
+#     if other.is_a? Filesize
+#       result
+#     else
+#       self.class.new(result, @type)
+#     end
+#   end
+
+#   def <=>(other)
+#     self.to_i <=> other.to_i
+#   end
+
+#   # @return [Array<self, other>]
+#   # @api private
+#   def coerce(other)
+#     return self, other
+#   end
+
+#   class << self
+#     # Parses a string, which describes a file size, and returns a
+#     # Filesize object.
+#     #
+#     # @param [String] arg A file size to parse.
+#     # @raise [ArgumentError] Raised if the file size cannot be parsed properly.
+#     # @return [Filesize]
+#     def from(arg)
+#       parts  = parse(arg)
+#       prefix = parts[:prefix]
+#       size   = parts[:size]
+#       type   = parts[:type]
+
+#       raise ArgumentError, "Unparseable filesize" unless type
+
+#       offset = (type[:prefixes].map { |s| s[0].chr.downcase }.index(prefix.downcase) || -1) + 1
+
+#       new(size * (type[:multiplier] ** (offset)), type)
+#     end
+
+#     # @return [Hash<:prefix, :size, :type>]
+#     # @api private
+#     def parse(string)
+#       type = nil
+#       # in this order, so we prefer binary :)
+#       [BINARY, SI].each { |_type|
+#         if string =~ _type[:regexp]
+#           type    =  _type
+#           break
+#         end
+#       }
+
+#       prefix = $2 || ''
+#       size   = ($1 || 0).to_f
+
+#       return { :prefix => prefix, :size => size, :type => type}
+#     end
+#   end
+
+# end
+
+
+#   # The size of a floppy disk
+#   Floppy = Filesize.from("1474 KiB")
+#   # The size of a CD
+#   CD     = Filesize.from("700 MB")
+#   # The size of a common DVD
+#   DVD_5  = Filesize.from("4.38 GiB")
+#   # The same as a DVD 5
+#   DVD    = DVD_5
+#   # The size of a single-sided dual-layer DVD
+#   DVD_9  = Filesize.from("7.92 GiB")
+#   # The size of a double-sided single-layer DVD
+#   DVD_10 = DVD_5 * 2
+#   # The size of a double-sided DVD, combining a DVD-9 and a DVD-5
+#   DVD_14 = DVD_9 + DVD_5
+#   # The size of a double-sided dual-layer DVD
+#   DVD_18 = DVD_14 * 2
+#   # The size of a Zip disk
+#   ZIP    = Filesize.from("100 MB")
+
+
+
+# puts ZIP
+
+
+
+
+
+
+
+# ap "timeo".similar "timeout"
+# ap "notifica".similar "notifica_email"
+# ap "notifica".similar "notifica_slack"
+# ap "notifoca_".similar "notifica_email"
+# ap "notifaca".similar "notifica_slack"
+
+
+# args =  ['cmdapi', 'gbix' ,'search' ,'host' , '--query', 'name=*cmdapi*', '--query' ,'host=*cmdapi*']
+
+# status, query = args.extract_option_value '--query', true
+
+# ap  Hash[*query]
+
+
+ #ToolsConfig.change_value_in_config "/home/francisco/.newcmdapi/cmdapi.config", false ,'cmdapi','teste_insert_config','status'
+
+
+
+ #{'cmdapi' => {"teste_insert_config" => {"status" => false }}}
+
+
+
+# choices = %w(vodka beer wine whisky bourbon)
+# prompt.multi_select("Select drinks?", choices)
+# specialname="Hello!#$@"
+# cleanedname = specialname.gsub(/[^a-zA-Z0-9\-]/,"")
+
+# ap specialname
+# ap cleanedname
+
+
+
+# r = ToolsPrompt.yes? 'Do you like Ruby?'
+# ap r
+# r = ToolsPrompt.ask 'What is your name?', default: ENV['USER']
+# ap r
 # r = ToolsPrompt.mask("What is your secret?")
 
 # aux = [
@@ -94,6 +318,7 @@ ap r
 # cache.each do |key|
 #   puts "#{key} - #{cache[key]}"
 # end
+
 
 
 
@@ -201,33 +426,143 @@ ap r
 # ToolsConfig.load_config home, 'config'
 # ToolsConfig.write_config home, 'config'
 
+ #ToolsLog.create_log_file 'tools', '/home/francisco/2018/xykotools/tools/xyko.log'
 
-# ToolsConfig.create_config_file '/home/francisco/2018/xykotools/tools', 'config'
-# config_file = (ToolsUtil.get_variable 'config_file_location')
+# class Hash
+#  def has_shape?(shape)
+#    all? do |k, v|
+#      Hash === v ? v.has_shape?(shape[k]) : shape[k] === v
+#    end
+#  end
+# end
 
 
-# data = {
-#     "graylogx" => {
-#         "status" => false
+# cmdapi_home =  "/home/francisco/2018/xykotools/tools"
+# cmdapi_configfile = cmdapi_home + '/cmdapi.config'
+# ToolsConfig.create_config_file 'cmdapi', cmdapi_configfile, :yaml, # {:first_time => true}
+
+
+
+
+
+
+
+
+# config_file_path = ToolsUtil.get_variable "cmdapi_config_file"
+# config_file_type = ToolsUtil.get_variable "cmdapi_config_type"
+
+# config_file  = ToolsConfig.load_config config_file_path
+
+
+#   data = {
+# :cloud => {
+#         :region_default => "devh",
+#            :use_ssl => true,
+#           :time_out => 120,
+#            :regions => {
+#                    :"devhl,devh,devl,qa2" => {
+#                :region => "RJDEV",
+#             :secretkey => "Jfm8nuodLGebK089ObWchDcPbXJLui66j0lNusVI_5vrS3jaYKYivr-hhRGYjI-ret2dWETL9qw7NOOrQFstWQ",
+#                :apikey => "H-KPAqnrjKOuASLYkMSEMr49gGIku5NWzhIwTPMKb5MvOjdpgx6apYgPCeV04xoPt4bG415Z5U9sCb4FM9rkYw",
+#                   :url => "https://rjdev.globoi.com/client/api"
+#         },
+#         :"cm10,cm18,cm19,cm21,cm22,cm25,cmstg" => {
+#                :region => "RJCME",
+#             :secretkey => "LvoZc-0p92hxrunOFhrbkacPTE8GdvKnkx3cfm6QSGG_4m_YHvvkThGjmhRwBMvaPtoLFFHxIL9RhQPPk399gw",
+#                :apikey => "dKDvCQZeAm5ZDEQ8XhaCNDobWbr0xgrhMVX2eYyGWesxTg3Rs21u8Xt-RHjFoWimSfnTH9aTHr1Y0v7L2Lhtrw",
+#                   :url => "https://rjcme.globoi.com/client/api"
+#         },
+#         :lab => {
+#                :region => "RJLAB",
+#                :apikey => "RAqpmpw-gbk9ey1ijreESn2tEq_eii1q5VR_lCzk5Q5Nr44om85EjBhuX7g9q6CmBYX8pg2_ofmNHPC_kLOr_Q",
+#             :secretkey => "snAlbaR9I8t6YlVvti4Xn96gFPWjY8VDkOeLc84Wm6q9sAYsnnTbhaQRztDHF91PkEPZZgQInFEdGNpleiDvYA",
+#                   :url => "https://10.170.2.42:8443/client/api"
+#         }
 #     }
 # }
+# }
+# ToolsConfig.insert_in_config config_file_path, data
 
-# data2 = {"cmdapi" => {
-#           "graylogy" => {
-#             "status" => false,
-#             'teste' => 100,
+# data =  {
+#   :default_options => {
+#                :editor => "/home/francisco/sublime_text_3/sublime_text",
+#          :check_config => true,
+#         :check_version => {
+#                :status => false,
+#                :latest => "2017-07-21T09:38:23-03:00",
+#                   :ttl => 60,
+#                 :renew => 60,
+#                :update => true
 #         }
-#       }}
+#     }
 
-# ToolsConfig.insert_in_config config_file, data
-# ToolsConfig.insert_in_config config_file, data2
+# }
+# ToolsConfig.insert_in_config config_file_path, data
+# #end
+
+# config_file  = ToolsConfig.load_config config_file_path
+
+# require 'hash_validator'
+
+# cloud_shape = {
+#   cloud: {
+#     region_default: 'string',
+#     use_ssl:        'boolean',
+#     time_out:       'integer',
+#     regions:        Hash,
+#   }
+# }
+
+# cloud_regions_shape = {
+#         region:    'string',
+#         secretkey: 'string',
+#         apikey:    'string',
+#         url:       'string',
+#     }
+
+# validator = HashValidator.validate(config_file, cloud_shape)
+# ap validator.errors unless validator.valid?
+
+# config_file[:cloud][:regions].each do |k,v|
+#   validator = HashValidator.validate(v, cloud_regions_shape)
+#   ap validator.errors unless validator.valid?
+# end
+
+# default_shape = {
+#                :editor => 'string',
+#          :check_config => true,
+#         :check_version => {
+#             :status => 'boolean',
+#             :latest => "2017-07-21T09:38:23-03:00",
+#                :ttl => 'integer',
+#              :renew => 'integer',
+#             :update => 'boolean',
+#         }
+# }
+
+
+# exit
+
+
+
+
 
 # config = ToolsConfig.load_config config_file
-
 
 # ap config
 
 
+  #realize Supso::Filer::Mount["/mnt/projetos/apikeys/globosdn_controller"]
+
+#globointerno.cmfdnc01:/dev/portal/
+
+
+
+# config = ToolsConfig.load_config config_file
+
+# ap config
+
+# ap ToolsConfig.test_config config_file
 
 # ToolsCache.create_cache_file 'xyko', '/home/francisco/2018/xykotools/tools'
 

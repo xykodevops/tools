@@ -1,6 +1,12 @@
 # coding: utf-8
-require 'bundler/gem_tasks'
+
+
+require 'bundler/gem_helper'
+Bundler::GemHelper.install_tasks :name => "tools"
+
+#require 'bundler/gem_tasks'
 require_relative 'lib/tools/version'
+
 
 # Default.
 task :default => :help
@@ -34,7 +40,7 @@ end
 
 desc "Release the gem in Artifactory (DEV)"
 task :push do
-  gem_file   = "#{ENV['PWD']}/pkg/workin-#{Workin::VERSION}.gem"
+  gem_file   = "#{ENV['PWD']}/pkg/tools-#{Tools::VERSION}.gem"
   gem_server_url = 'https://rubygems.org'
   system("gem push #{gem_file}  --host #{gem_server_url}")
 end

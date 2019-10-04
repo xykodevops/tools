@@ -401,9 +401,9 @@ class Object
   # Self test nil Object class.
   #
   # @return   boolean
-  def nil?
-    return '' if self == nil
-  end
+  # def nil?
+  #   return '' if self == nil
+  # end
 
 end
 

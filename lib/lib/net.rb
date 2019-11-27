@@ -173,7 +173,7 @@ class ToolsNet
 
   # Validate.: ip number or mask are valids?.
   #
-  # @param  ip number or mask to be validate.
+  # @param  that number or mask to be validate.
   # @return [Hash] result info ip or ask or error
   def self.validate_ipaddress that
     result = {}
@@ -221,7 +221,7 @@ class ToolsNet
 
   # Validate.: ip number is a backend?.
   #
-  # @param  ip number to be validate.
+  # @param  original_addr number to be validate.
   # @return [Boolean]
   def self.is_backend? original_addr
     glbbackend  = NetAddr::CIDR.create('10.0.0.0/8')
@@ -239,7 +239,7 @@ class ToolsNet
 
   # Validate.: ip number is avalid network.
   #
-  # @param  network number to be validate.
+  # @param  original_addr network number to be validate.
   # @return [Boolean]
   def self.valid_network? original_addr
     status = false

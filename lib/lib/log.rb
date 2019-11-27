@@ -20,8 +20,8 @@ class ToolsLog
   #  ToolsLog.xyko_error 'teste do methodo3'
   #  ToolsLog.xyko_debug 'teste do methodo4'
   #
-  # @param logname
-  # @param logfile
+  # @param log_name LogName to create
+  # @param log_file LogFile path
   # @return
   def self.create_log_file log_name, log_file
     if File.exists? log_file

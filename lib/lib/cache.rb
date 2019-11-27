@@ -8,7 +8,9 @@ class ToolsCache
 
   # Create a cache file in work area
   #
-  # @param arguments
+  # @param cache_name
+  # @param cache_file
+  # @param ttl
   # @return
   def self.create_cache_file cache_name, cache_file, ttl=nil
     cache = Persistent::Cache.new(cache_file, ttl)
@@ -35,8 +37,9 @@ class ToolsCache
   # ToolsCache.cmdapi_unset :nat
   # ToolsCache.cmdapi_set :nat, "texto para nat_ depois da primeira"
   #
-  # @param cache_name
-  # @param cache_method
+  # @param method
+  # @param args
+  # @param block
   # @return
   def self.method_missing(method, *args, &block)
 

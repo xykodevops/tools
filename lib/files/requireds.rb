@@ -1,6 +1,7 @@
 require 'awesome_print'
 require 'base64'
 require 'byebug'
+require 'pry-byebug'
 require 'colorize'
 require 'dnsruby'
 require 'encrypt'

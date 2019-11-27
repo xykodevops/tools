@@ -52,7 +52,7 @@ class ToolsUtil
 
   # Test a valid json string.
   #
-  # @param  Json string to be tested
+  # @param  source Json string to be tested
   # @return boolean
   def self.valid_json? source
     begin
@@ -64,7 +64,7 @@ class ToolsUtil
 
   # Test a valid yaml string.
   #
-  # @param  Yaml string to be tested
+  # @param  source Yaml string to be tested
   # @return boolean
   def self.valid_yaml? source
     begin

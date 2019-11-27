@@ -20,9 +20,12 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'yard'
 
+  spec.add_runtime_dependency 'addressable', '~> 2.6.0'
   spec.add_runtime_dependency 'awesome_print'
   spec.add_runtime_dependency 'byebug'
+  spec.add_runtime_dependency 'pry-byebug'
   spec.add_runtime_dependency 'colorize'
   spec.add_runtime_dependency 'dnsruby'
   spec.add_runtime_dependency 'encrypt'
@@ -51,5 +54,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'xml-simple'
 
   spec.required_ruby_version = '>= 2.4.0'
+
+  spec.metadata["yard.run"]  = "yri"
 
 end

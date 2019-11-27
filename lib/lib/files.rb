@@ -50,7 +50,7 @@ class ToolsFiles
   #  Sample
   #
   #  ToolsFiles.load_file file_to_load
-  # @param File Object
+  # @param file_to_load Object
   # @return
   def self.load_file file_to_load
     if File.exists? file_to_load

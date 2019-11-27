@@ -38,7 +38,7 @@ task :dev do
 end
 
 
-desc "Release the gem in Artifactory (DEV)"
+desc "Release the gem in rubygems (DEV)"
 task :push do
   gem_file   = "#{ENV['PWD']}/pkg/tools-#{Tools::VERSION}.gem"
   gem_server_url = 'https://rubygems.org'

@@ -53,8 +53,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'tty-prompt'
   spec.add_runtime_dependency 'xml-simple'
 
-  spec.required_ruby_version = '>= 2.2.10'
-
   spec.metadata["yard.run"]  = "yri"
 
 end

@@ -62,7 +62,6 @@ class ToolsCache
             aux.merge! values
             cache[key] = aux
           rescue Exception => e
-            log_file =  ToolsUtil.get_variable "#{logger_name}_log_file"
             ToolsDisplay.show "\tError in ToolsCache:  #{e.exception}", :light_yellow
             exit
           end
@@ -87,28 +86,28 @@ class ToolsCache
     #   value      = args.extract_first
     #   cache.set(key, value, Time.now)
 
-    when 'setext'
-      key        = args.extract_first
-      values     = args.extract_first
-      unless cache.key?(key)
-        ToolsCache.cmdapi_set key, values
-      else
-        aux = cache[key]
-        values.keys.each do |value|
-          aux[value] = values[value]
-        end
-        ToolsCache.cmdapi_set key, aux
-      end
+    # when 'setext'
+    #   key        = args.extract_first
+    #   values     = args.extract_first
+    #   unless cache.key?(key)
+    #     ToolsCache.cmdapi_set key, values
+    #   else
+    #     aux = cache[key]
+    #     values.keys.each do |value|
+    #       aux[value] = values[value]
+    #     end
+    #     ToolsCache.cmdapi_set key, aux
+    #   end
 
-    when 'unsetext'
-      key          = args.extract_first
-      key_internal = args.extract_first
-      if cache.key?(key)
-        aux = cache[key]
-        if aux.key? key_internal
-          aux
-        end
-      end
+    # when 'unsetext'
+    #   key          = args.extract_first
+    #   key_internal = args.extract_first
+    #   if cache.key?(key)
+    #     aux = cache[key]
+    #     if aux.key? key_internal
+    #       aux
+    #     end
+    #   end
 
     when 'unset'
       key = args.extract_first

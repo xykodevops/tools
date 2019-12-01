@@ -5,28 +5,21 @@ require 'lib/utils'
 require 'lib/display'
 require 'lib/net'
 require 'lib/files'
+require 'lib/string'
+require 'lib/array'
+require 'lib/hash'
+require 'lib/object'
 
 # Extented models
 require 'lib/config'
 require 'lib/log'
 require 'lib/cache'
 require 'lib/prompt'
-
-# require 'lib/console'
+require 'lib/console'
 
 load __dir__ + '/files/requireds.rb'
 
 module Tools
-
-  @@check_version = nil
-
-  def self.set_check_version param
-    @@check_version = param
-  end
-
-  def self.get_check_version
-    return @@check_version
-  end
 
   class Configuration
     attr_accessor :console_prompt
@@ -83,7 +76,9 @@ end
 
 Tools.configure do |config|
   config.console_prompt = Tools::VERSION
-  ToolsUtil.instance
+  I18n.load_path = Dir[Tools.files + '/pt-BR.yml']
+  I18n.locale    = 'pt-BR'.to_sym
+ #ToolsUtil.instance
 end
 
 

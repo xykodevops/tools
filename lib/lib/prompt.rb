@@ -41,7 +41,7 @@ class ToolsPrompt
 
   def self.enum_select *args
     prompt = TTY::Prompt.new
-    result = prompt.multi_select *args
+    result = prompt.enum_select *args
     return result
   end
 

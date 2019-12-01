@@ -30,17 +30,18 @@ class ToolsConfig
         config = File.open(config_file, 'w')
         config.write JSON.pretty_generate(data)
         config.close
-        ToolsLog.tools_info "Json config file '#{config_file}' was created!'"
-        return true
+        #ToolsLog.tools_info "Json config file '#{config_file}' was created!'"
+        #return true
       when :yaml
         config = File.open(config_file, 'w')
         config.write data.to_yaml
         config.close
-        ToolsLog.tools_info "Json config file '#{config_file}' was created!'"
-        return true
+        #ToolsLog.tools_info "Json config file '#{config_file}' was created!'"
+        #return true
       end
     else
-      ToolsLog.tools_warn "The file #{config_file} really exist. leaving operation...."
+      #ToolsLog.tools_warn "The file #{config_file} really exist. leaving operation...."
+      return false
     end
     ToolsUtil.set_variable "#{config_name}_config_file", config_file
     ToolsUtil.set_variable "#{config_name}_config_type", config_type

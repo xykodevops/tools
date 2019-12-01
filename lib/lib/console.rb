@@ -2,30 +2,26 @@ require 'singleton'
 class ToolsConsole
   include Singleton
 
+  def self.exec_console args
+    command_name = args.extract_first
+    cmd = Prompt.application.commands.select {|c| c.name.eql? command_name}.first
+    unless cmd.nil?
+      cmd.run cmd
+      return true
+    else
+      ToolsDisplay.show "Invalid command '#{command_name}'.! Aborting...", :light_yellow
+      return false
+    end
+  end
+
+  def initialize(options = {})
+  end
 
   def self.create_console
 
       extend Prompt::DSL
 
       group "Console commands"
-
-      desc "configure"
-      param :config_type , "Config type search for roots locations...", %(location show)
-      command "config :config_type" do |config_type|
-
-        Prompt.application.prompt = "#{Tools.configuration.console_prompt} console > ".light_blue
-        puts "Choise yuor config action .:".yellow
-
-      end
-
-      desc "history"
-      command "history" do
-        File.open(@history_file, 'r') do |f|
-          while line = f.gets
-            puts line
-          end
-        end
-      end
 
       desc "test"
       command "test" do
@@ -34,9 +30,6 @@ class ToolsConsole
 
   end
 
-  def self.my_method_missing
-    ap "my_method_missing"
-  end
 
   def self.run_console
       Prompt.application.prompt = "#{Tools.configuration.console_prompt} console > ".light_green
@@ -61,7 +54,7 @@ end
 
 #   def commands
 
-#   	extend Prompt::DSL 
+#   	extend Prompt::DSL
 
 # 		group "Commands"
 
@@ -84,7 +77,7 @@ end
 # 					ap k
 # 					ap v
 # 				end
-# 			else 
+# 			else
 # 				ap Tools.get_variable param
 # 			end
 # 		end
@@ -96,7 +89,7 @@ end
 
 # 			unless Tools.configuration.info[:directorys_to][from].nil?
 # 			 from = Tools.configuration.info[:directorys_to][from]
-# 			 from += ask("?? ") 
+# 			 from += ask("?? ")
 # 			else
 # 				sourcefiles = File.join("**", from)
 # 				Dir.glob(sourcefiles).each do |source|
@@ -139,7 +132,7 @@ end
 
 
 # 		Prompt.application.prompt = " tools > ".light_red
-# 		history_file = ".tools-history"  
+# 		history_file = ".tools-history"
 # 		Prompt::Console.start history_file
 
 #   end

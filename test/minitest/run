@@ -1,9 +1,0 @@
-#!/usr/bin/env ruby
-# coding: utf-8
-require 'rubygems'
-
-here = File.dirname(File.realpath(__FILE__))
-Dir["#{here}/minit*.rb"].each do |file|
-  require file
-  puts file
-end

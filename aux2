@@ -3,13 +3,8 @@
 require 'rubygems'
 require 'tools'
 
-args = ["1","2","3"]
 
 
-ap args.extract_first.nil?
-ap args.extract_first
-ap args.extract_first
-ap args.extract_first
-ap args.extract_first.nil?
+t = ToolsUtil.new
 
 

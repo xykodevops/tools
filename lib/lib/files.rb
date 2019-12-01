@@ -6,6 +6,24 @@ class ToolsFiles
   end
 
 
+  # Purge files in directory
+  #
+  #  Sample
+  # ToolsFiles. purge_files Cmdapi.configuration.home+'/.cmdapi/backup', '*',   14*24*60*60'
+  #
+  # @param path_to_clean
+  # @param select (sample: *.log)
+  # @param elipsed_time in seconds (sample: 2 weeks = 14*24*60*60)
+  # @return
+  def self.purge_files path, select, time #Cmdapi.configuration.home+'/.cmdapi/backup', '*',   14*24*60*60
+    to_clean = Dir.glob(File.join(path, select)).select { |a|
+      Time.now - File.ctime(a) > time }
+    to_clean.each do |file_to_delete|
+      File.delete(file_to_delete)
+    end
+  end
+
+
   # Create a directory in work area
   #
   #  Sample
@@ -59,6 +77,21 @@ class ToolsFiles
     end
   end
 
+  # Delete a file in work area
+  #
+  #  Sample
+  #
+  #  ToolsFiles.delete_file file_to_delete
+  # @param file_to_delete Object
+  # @return
+  def self.remove_file file_to_removee
+    if File.exists? file_to_removee
+      file = FileUtils.remove_file( file_to_removee )
+      return file
+    end
+  end
+
+
   def self.open_file file, default_editor=nil
     begin
       if default_editor.nil?
@@ -72,3 +105,6 @@ class ToolsFiles
   end
 
 end
+
+
+

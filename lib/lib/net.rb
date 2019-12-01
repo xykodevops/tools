@@ -2,6 +2,9 @@ require 'singleton'
 class ToolsNet
   include Singleton
 
+  def initialize(options = {})
+  end
+
   def self.ping? host
     return Net::Ping::External.new(host || '0.0.0.1000', timeout=1).ping?
   end
@@ -13,6 +16,10 @@ class ToolsNet
     # rescue Exception => e
     # end
     ip = `ifconfig | grep -E '10\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'  | awk '{print $2}'`
+    unless valid_ip? ip
+      ip = (`ifconfig | grep -E '192\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'  | awk '{print $2}'`).split("\n").first
+    end
+
     ip = ip.split("\n").first if ip.include? "\n"
     return ip if IPAddress.valid?(ip)
   end
@@ -202,17 +209,19 @@ class ToolsNet
         result[:type]   = 'mask'
         result[:status] = true
       rescue Exception => e
-        ip = resolv_dns that
-        if IPAddress::valid_ipv4? ip
-          result[:status] = true
-          result[:type]   = 'ip'
-          result[:oct1]   = ip.split('.')[0]
-          result[:oct2]   = ip.split('.')[1]
-          result[:oct3]   = ip.split('.')[2]
-          result[:oct4]   = ip.split('.')[3]
-        else
-          result[:msg] = e.to_s
-        end
+        result[:type]   = ''
+        result[:status] = false
+        # ip = resolv_dns that
+        # if IPAddress::valid_ipv4? ip
+        #   result[:status] = true
+        #   result[:type]   = 'ip'
+        #   result[:oct1]   = ip.split('.')[0]
+        #   result[:oct2]   = ip.split('.')[1]
+        #   result[:oct3]   = ip.split('.')[2]
+        #   result[:oct4]   = ip.split('.')[3]
+        # else
+        #   result[:msg] = e.to_s
+        # end
       end
     end
     return result

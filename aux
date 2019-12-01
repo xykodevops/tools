@@ -4,11 +4,11 @@ require 'rubygems'
 require 'tools'
 
 
-ToolsPrompt.yes? "continua"
 
 
 
 # class Filesize
+
 #   include Comparabletool
 
 #   TYPE_PREFIXES = {
@@ -222,8 +222,6 @@ ToolsPrompt.yes? "continua"
 
 
 
-# choices = %w(vodka beer wine whisky bourbon)
-# prompt.multi_select("Select drinks?", choices)
 # specialname="Hello!#$@"
 # cleanedname = specialname.gsub(/[^a-zA-Z0-9\-]/,"")
 
@@ -252,7 +250,7 @@ ToolsPrompt.yes? "continua"
 # prompt.multi_select("Select drinks?", choices)
 
 # choices = %w(emacs nano vim)
-# prompt.enum_select("Select an editor?", choices)
+# ToolsPrompt.enum_select("Select an editor?", choices)
 
 
 # name = prompt.ask("What is your name?") do |q|
@@ -271,12 +269,28 @@ ToolsPrompt.yes? "continua"
 # unless result.true?
 #   ap result
 # end
+# ToolsFiles.remove_file '/home/francisco/2018/xykotools/tools/teste-persistent.cache'
+# ToolsCache.create_cache_file 'tools',  (File.dirname __dir__) + '/tools/teste-persistent.cache', 60
+# ToolsCache.tools_set :k1, 100
+# ap ToolsCache.tools_list
 
+# ToolsCache.tools_unset :k1
+# ap ToolsCache.tools_list
 
+# ToolsCache.tools_set :k2, {:i => 100, :j => 200}
+# ToolsCache.tools_set :k2, {:l => 100, :m => 200}
+# ToolsCache.tools_set :k3, []
+# ToolsCache.tools_set :k3, [1,2,3]
+# ToolsCache.tools_set :k3, [4]
+# ap ToolsCache.tools_get :k3
+# ap ToolsCache.tools_get :k2
 
-#ToolsCache.create_cache_file 'cmdapi', '/home/francisco/.newcmdapi/teste-persistent.cache', 60
+# ap ToolsCache.tools_clear
+# ap ToolsCache.tools_list
 
-# cache.clear
+# ToolsCache.create_cache_file 'cmdapi', '/home/francisco/2018/xykotools/tools/teste-persistent.cache', 60
+
+# # cache.clear
 
 # ToolsCache.cmdapi_set :ldap, {:rogerio  => {:name => 'rogerio'}}
 # ToolsCache.cmdapi_set :ldap, {:wagner => {:name => 'wagner'}}
@@ -292,17 +306,18 @@ ToolsPrompt.yes? "continua"
 # ToolsCache.cmdapi_set :nat, "texto para nat_ depois da primeira"
 
 
-# # ToolsCache.cmdapi_setext :ldap, {:francisco => {:name => 'francisco'}}
-# # ToolsCache.cmdapi_setext :ldap, {:wagner    => {:name => 'wagner'}, :leandro  => {:name => 'leandro'}}
+# ToolsCache.cmdapi_setext :ldap, {:francisco => {:name => 'francisco'}}
+# ToolsCache.cmdapi_setext :ldap, {:wagner    => {:name => 'wagner'}, :leandro  => {:name => 'leandro'}}
 
-#ap ToolsCache.cmdapi_list
-#sleep 30
-#ap ToolsCache.cmdapi_list
-#sleep 30
-#ap ToolsCache.cmdapi_list
+# ap ToolsCache.cmdapi_list
+# sleep 5
 
-
+# #ap ToolsCache.cmdapi_list
 # ToolsCache.cmdapi_unset :nat
+
+# ap ToolsCache.cmdapi_list
+# sleep 5
+
 # ToolsCache.cmdapi_set :nat, "texto para nat_ depois da primeira"
 
 
@@ -351,7 +366,8 @@ ToolsPrompt.yes? "continua"
 # ToolsLog.xyko_info 'teste do methodo1', :light_green
 
 
-#ToolsDisplay.show_colorize "Minitest.:".red + " test_cmdapi_ldap_validate".white
+#oolsDisplay.show_colorize "red".red+ " " + "white".white
+
 
 
 # teste = '123'
@@ -401,7 +417,8 @@ ToolsPrompt.yes? "continua"
 #ToolsDisplay.show dns
 
 
-
+ap (Time.now - 86400)
+exit
 
 
  # ToolsLog.create_log_file 'xyko', '/home/francisco/2018/xykotools/tools/xyko.log'

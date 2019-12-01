@@ -3,9 +3,7 @@ class ToolsLog
   include Singleton
 
   def initialize(options = {})
-
   end
-
 
   # Create a Log file in work area
   #
@@ -57,10 +55,8 @@ class ToolsLog
         when 'ucolor'
           color = nil
           logger_method = 'info'
-        when 'exit'
-          log_file =  ToolsUtil.get_variable "#{logger_name}_log_file"
-          ToolsDisplay.show "\tError in ToolsUtil. See details in '#{log_file}'", :light_yellow
-          exit
+        else
+          return false
       end
     end
     unless color.nil?

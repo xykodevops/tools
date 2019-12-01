@@ -40,6 +40,11 @@ class Tools_exec < Thor
   #    ToolsConfig.config
   end
 
+  desc 'exec', ''
+  def exec(*args)
+    ToolsConsole.create_console
+    ToolsConsole.exec_console args
+  end
 
   desc 'console', ''
   def console

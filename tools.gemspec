@@ -35,7 +35,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'ipaddress'
   spec.add_runtime_dependency 'ipcalc'
   spec.add_runtime_dependency 'json_patterns'
-  #spec.add_runtime_dependency 'logger', '~> 1.3.0'
   spec.add_runtime_dependency 'minitest-reporters'
   spec.add_runtime_dependency 'net-ping'
   spec.add_runtime_dependency 'net-ssh'
@@ -52,6 +51,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'tty-prompt'
   spec.add_runtime_dependency 'simplecov'
   spec.add_runtime_dependency 'xml-simple'
+  spec.add_runtime_dependency 'rubocop', '0.68.1'
 
   spec.metadata["yard.run"]  = "yri"
 

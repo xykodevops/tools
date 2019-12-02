@@ -15,11 +15,10 @@ class ToolsNet
     #   return ip if IPAddress.valid?(ip)
     # rescue Exception => e
     # end
-    ip = `ifconfig | grep -E '10\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'  | awk '{print $2}'`
+    ip = (`ifconfig | grep -E '10\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'  | awk '{print $2}'`).split("\n").first
     unless valid_ip? ip
       ip = (`ifconfig | grep -E '192\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'  | awk '{print $2}'`).split("\n").first
     end
-
     ip = ip.split("\n").first if ip.include? "\n"
     return ip if IPAddress.valid?(ip)
   end

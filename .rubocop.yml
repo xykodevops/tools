@@ -1,0 +1,11 @@
+Metrics/LineLength:
+  Max: 120
+
+AllCops:
+  Exclude:
+    - 'test/**/*.rb'
+    - 'bin/**/*'
+    - 'aux*'
+
+Documentation:
+  Enabled: false

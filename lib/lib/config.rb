@@ -88,7 +88,7 @@ class ToolsConfig
       return parsed
     when :yaml
       file = open(source)
-      parsed = YAML.safe_load(file.read)
+      parsed = YAML.load(file.read)
       ToolsUtil.set_variable 'config_data', parsed
       return parsed
     end
@@ -111,7 +111,7 @@ class ToolsConfig
       file.close
     when :yaml
       yaml = file.read
-      parsed = YAML.safe_load(yaml)
+      parsed = YAML.load(yaml)
       parsed.rmerge!(command)
       file.close
       file = open(source, 'w')
@@ -139,7 +139,7 @@ class ToolsConfig
     when :yaml
       file = open(source)
       yaml = file.read
-      parsed = YAML.safe_load(yaml)
+      parsed = YAML.load(yaml)
       parsed.nested_set(args, value)
       file.close
       file = open(source, 'w')

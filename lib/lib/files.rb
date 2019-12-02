@@ -89,7 +89,5 @@ class ToolsFiles
     else
       TTY::Editor.open(file, command: default_editor)
     end
-  rescue Exception => e
-    e
   end
 end

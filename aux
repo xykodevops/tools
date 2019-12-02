@@ -3,6 +3,12 @@
 require 'rubygems'
 require 'tools'
 
+binding.pry
+file = open('/home/francisco/2018/xykotools/tools/tools_yaml.config')
+parsed = YAML.load(file.read)
+
+ap parsed
+
 # class Filesize
 
 #   include Comparabletool

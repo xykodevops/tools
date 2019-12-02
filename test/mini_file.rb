@@ -24,14 +24,9 @@ class ToolsModuleTest < Minitest::Test
     end
   end
 
-  def test_file_C_create_file
-    mock = MiniTest::Mock.new
-    def mock.open(*_args)
-      String
-    end
-    File.stub :open, mock do
-      assert_equal (ToolsFiles.create_file (File.dirname __dir__) + '/pkg', 'minitest', 'minitest').class, String
-    end
+  def test_file_C_create_delete_file
+    ToolsFiles.create_file (File.dirname __dir__), '/create_file', 'teste'
+    ToolsFiles.remove_file (File.dirname __dir__) + '/create_file'
   end
 
   def test_file_D_load_file
@@ -49,23 +44,17 @@ class ToolsModuleTest < Minitest::Test
   end
 
   def test_file_G_open_file
+
     mock = MiniTest::Mock.new
     def mock.open(*_args)
       true
     end
     TTY::Editor.stub :open, mock do
-      assert_equal (ToolsFiles.open_file '').class, Minitest::Mock
-      assert_equal (ToolsFiles.open_file '', :vi).class, Minitest::Mock
+      file = (File.dirname __dir__) + '/TODO.txt'
+      ToolsFiles.open_file file, :vi
+      ToolsFiles.open_file file
     end
   end
 
-  def test_file_H_remove_file
-    mock = MiniTest::Mock.new
-    def mock.remove_file(*_args)
-      String
-    end
-    FileUtils.stub :remove_file, mock do
-      assert_equal (ToolsFiles.remove_file (File.dirname __dir__) + '/pkg').class, Minitest::Mock
-    end
-  end
+
 end

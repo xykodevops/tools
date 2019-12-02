@@ -2,53 +2,51 @@ require 'singleton'
 class ToolsPrompt
   include Singleton
 
-  def initialize(options = {})
-  end
+  def initialize(options = {}); end
 
-  def self.yes? *args
+  def self.yes?(*args)
     prompt = TTY::Prompt.new
     prompt.yes? *args
   end
 
-  def self.no? *args
+  def self.no?(*args)
     prompt = TTY::Prompt.new
     prompt.no? *args
   end
 
-  def self.ask *args
+  def self.ask(*args)
     prompt = TTY::Prompt.new
     result = prompt.ask *args
-    return result
+    result
   end
 
-  def self.mask *args
+  def self.mask(*args)
     prompt = TTY::Prompt.new
     result = prompt.mask *args
-    return result
+    result
   end
 
-  def self.select *args
+  def self.select(*args)
     prompt = TTY::Prompt.new
     result = prompt.select *args
-    return result
+    result
   end
 
-  def self.multi_select *args
+  def self.multi_select(*args)
     prompt = TTY::Prompt.new
     result = prompt.multi_select *args
-    return result
+    result
   end
 
-  def self.enum_select *args
+  def self.enum_select(*args)
     prompt = TTY::Prompt.new
     result = prompt.enum_select *args
-    return result
+    result
   end
 
-  def self.expand *args
+  def self.expand(*args)
     prompt = TTY::Prompt.new
     result = prompt.expand *args
-    return result
+    result
   end
-
 end

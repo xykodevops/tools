@@ -1,30 +1,28 @@
 #!/usr/bin/env ruby
-# coding: utf-8
+
 require 'tools'
 require 'thor'
 
-Signal.trap("INT") {
+Signal.trap('INT') do
   puts "\n\tNote: You will typically use Signal.trap instead.\n".light_red
   exit
-}
+end
 
-Signal.trap("TERM") {
+Signal.trap('TERM') do
   puts "\n\tNote: You will typically use Signal.trap instead.\n".light_red
   exit
-}
+end
 
 load Tools.files + '/requireds.rb'
 
 class Tools_exec < Thor
-
   desc 'help', ''
-  def help(command='')
+  def help(_command = '')
     puts "\tHELP will be here..... Coming soon....".light_green
-
   end
 
   desc 'show', ''
-  def show(command='')
+  def show(_command = '')
     puts "Gem_path.:  #{Tools.gem_path}"
     puts "Ldap_pass.: #{Tools.ldap_pass}"
     puts "Ldap_user.: #{Tools.ldap_user}"
@@ -36,8 +34,8 @@ class Tools_exec < Thor
 
   desc 'config', ''
   def config
-  ap 'config'
-  #    ToolsConfig.config
+    ap 'config'
+    #    ToolsConfig.config
   end
 
   desc 'exec', ''
@@ -49,34 +47,28 @@ class Tools_exec < Thor
   desc 'console', ''
   def console
     ap 'console'
-    #ToolsConsole.create_console
-    #ToolsConsole.run_console
+    # ToolsConsole.create_console
+    # ToolsConsole.run_console
   end
 
+  def method_missing(_method, *_args)
+    #   ap method
+    # ap args.extract_option '-v', false    #=> 8
+    # ap args.extract_option '-x'           #=> true
+    # ap args.extract_option '-f'           #=> false
+    # ap args.extract_symbol :json          #=> true
+    # ap args.extract_symbol :yaml          #=> false
+    # ap args.extract_color                 #=> :yellow
+    # ap args.extract_color                 #=> red
+    # ap args.extract_option_value '--class' #=> 'tools'
+    # ap args                               #=> [-c -vcv -v2 -s ]
 
-  def method_missing(method, *args, &block)
+    ToolsDisplay.show 'To export ldap variables use:        '.fix(60, '.'), :cyan
+    ToolsDisplay.show 'export ldap_user=<your_ldap_login>   '.fix(65, '.'), :cyan
+    ToolsDisplay.show 'export ldap_pass=<your_ldap_password>'.fix(65, '.'), :cyan
 
-
-  #   ap method
-  # ap args.extract_option '-v', false    #=> 8
-  # ap args.extract_option '-x'           #=> true
-  # ap args.extract_option '-f'           #=> false
-  # ap args.extract_symbol :json          #=> true
-  # ap args.extract_symbol :yaml          #=> false
-  # ap args.extract_color                 #=> :yellow
-  # ap args.extract_color                 #=> red
-  # ap args.extract_option_value '--class' #=> 'tools'
-  # ap args                               #=> [-c -vcv -v2 -s ]
-
-
-      ToolsDisplay.show "To export ldap variables use:        ".fix(60,'.'), :cyan
-      ToolsDisplay.show "export ldap_user=<your_ldap_login>   ".fix(65,'.'), :cyan
-      ToolsDisplay.show "export ldap_pass=<your_ldap_password>".fix(65,'.'), :cyan
-
-
-    exit()
+    exit
   end
-
 end
 
 begin

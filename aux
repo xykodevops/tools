@@ -1,11 +1,7 @@
 #!/usr/bin/env ruby
-# coding: utf-8
+
 require 'rubygems'
 require 'tools'
-
-
-
-
 
 # class Filesize
 
@@ -170,7 +166,6 @@ require 'tools'
 
 # end
 
-
 #   # The size of a floppy disk
 #   Floppy = Filesize.from("1474 KiB")
 #   # The size of a CD
@@ -190,15 +185,7 @@ require 'tools'
 #   # The size of a Zip disk
 #   ZIP    = Filesize.from("100 MB")
 
-
-
 # puts ZIP
-
-
-
-
-
-
 
 # ap "timeo".similar "timeout"
 # ap "notifica".similar "notifica_email"
@@ -206,29 +193,21 @@ require 'tools'
 # ap "notifoca_".similar "notifica_email"
 # ap "notifaca".similar "notifica_slack"
 
-
 # args =  ['cmdapi', 'gbix' ,'search' ,'host' , '--query', 'name=*cmdapi*', '--query' ,'host=*cmdapi*']
 
 # status, query = args.extract_option_value '--query', true
 
 # ap  Hash[*query]
 
+# ToolsConfig.change_value_in_config "/home/francisco/.newcmdapi/cmdapi.config", false ,'cmdapi','teste_insert_config','status'
 
- #ToolsConfig.change_value_in_config "/home/francisco/.newcmdapi/cmdapi.config", false ,'cmdapi','teste_insert_config','status'
-
-
-
- #{'cmdapi' => {"teste_insert_config" => {"status" => false }}}
-
-
+# {'cmdapi' => {"teste_insert_config" => {"status" => false }}}
 
 # specialname="Hello!#$@"
 # cleanedname = specialname.gsub(/[^a-zA-Z0-9\-]/,"")
 
 # ap specialname
 # ap cleanedname
-
-
 
 # r = ToolsPrompt.yes? 'Do you like Ruby?'
 # ap r
@@ -245,13 +224,11 @@ require 'tools'
 # r = ToolsPrompt.select("Choose your destiny?", aux)
 # ap r
 
-
 # choices = %w(vodka beer wine whisky bourbon)
 # prompt.multi_select("Select drinks?", choices)
 
 # choices = %w(emacs nano vim)
 # ToolsPrompt.enum_select("Select an editor?", choices)
-
 
 # name = prompt.ask("What is your name?") do |q|
 #   q.required true
@@ -259,7 +236,6 @@ require 'tools'
 #   q.modify   :capitalize
 # end
 # ap name
-
 
 # ap prompt.keypress("Press any key to continue, resumes automatically in 3 seconds ...".yellow, timeout: 3)
 
@@ -301,10 +277,8 @@ require 'tools'
 # ToolsCache.cmdapi_set :cloud, "teste2"
 # ToolsCache.cmdapi_set :cloud, {:teste => 1}
 
-
 # ToolsCache.cmdapi_set :nat, "texto para nat"
 # ToolsCache.cmdapi_set :nat, "texto para nat_ depois da primeira"
-
 
 # ToolsCache.cmdapi_setext :ldap, {:francisco => {:name => 'francisco'}}
 # ToolsCache.cmdapi_setext :ldap, {:wagner    => {:name => 'wagner'}, :leandro  => {:name => 'leandro'}}
@@ -320,44 +294,28 @@ require 'tools'
 
 # ToolsCache.cmdapi_set :nat, "texto para nat_ depois da primeira"
 
-
 # cache = ToolsCache.cmdapi_list
 # ap cache
-
-
 
 # ToolsCache.cmdapi_unsetext :ldap, :francisco
 
-
 # cache = ToolsCache.cmdapi_list
 # ap cache
-
 
 # cache.each do |key|
 #   puts "#{key} - #{cache[key]}"
 # end
 
-
-
-
-
-
 # ap ToolsCache.cmdapi_get 'ldap'
-
 
 # ap ToolsCache.cmdapi_list
 
 # valor = '100'
 # ToolsCache.cmdapi_add "variável", valor
 
-
-
-
-
 # file_to_load =  "/home/francisco/2018/xykotools/cmdapi/lib/files/proxy_sample.txt"
 # file = ToolsFiles.load_file file_to_load
 # ap file
-
 
 # ToolsLog.create_log_file 'xyko', '/home/francisco/2018/xykotools/tools/xyko.log'
 
@@ -365,10 +323,7 @@ require 'tools'
 # ToolsLog.xyko_info 'teste do methodo1', :yellow
 # ToolsLog.xyko_info 'teste do methodo1', :light_green
 
-
-#oolsDisplay.show_colorize "red".red+ " " + "white".white
-
-
+# oolsDisplay.show_colorize "red".red+ " " + "white".white
 
 # teste = '123'
 
@@ -378,7 +333,6 @@ require 'tools'
 # ap NetAddr::CIDR.methods.sort
 # net = NetAddr::CIDR.create ip
 # ap net
-
 
 # teste = false
 # if teste.boolean?
@@ -397,12 +351,10 @@ require 'tools'
 # ToolsDisplay.show "TEXT GREEN", :green
 # ToolsDisplay.show "TEXT YELLOW", :yellow
 
-
 # msg       = "teste do encrypt".light_blue
 # passwd    = 'tools999'
 # encrypted = msg.encrypt passwd
 # puts (encrypted.decrypt passwd)
-
 
 # ip = `ifconfig | grep -F 10. | awk '{print $2}' | cut -d: -f2`
 # ip = ip.split("\n").first if ip.include? "\n"
@@ -414,19 +366,16 @@ require 'tools'
 # ret = ToolsNet.resolv_ip_name '8.8.8.8'
 # ap ret
 # dns = ToolsNet.resolv_dns 'www.globo.com'
-#ToolsDisplay.show dns
+# ToolsDisplay.show dns
 
-
-ap (Time.now - 86400)
+ap (Time.now - 86_400)
 exit
 
-
- # ToolsLog.create_log_file 'xyko', '/home/francisco/2018/xykotools/tools/xyko.log'
- # ToolsLog.xyko_info 'teste do methodo1', :light_yellow
- # ToolsLog.xyko_warn 'teste do methodo2'
- # ToolsLog.xyko_error 'teste do methodo3'
- # ToolsLog.xyko_debug 'teste do methodo4'
-
+# ToolsLog.create_log_file 'xyko', '/home/francisco/2018/xykotools/tools/xyko.log'
+# ToolsLog.xyko_info 'teste do methodo1', :light_yellow
+# ToolsLog.xyko_warn 'teste do methodo2'
+# ToolsLog.xyko_error 'teste do methodo3'
+# ToolsLog.xyko_debug 'teste do methodo4'
 
 # ToolsFiles.create_dir Tools.home + '/2018/xykotools/tools/home', 'tools_home'
 # home = (ToolsUtil.get_variable 'tools_home')
@@ -442,11 +391,10 @@ exit
 # config = ToolsUtil.get_variable 'config_data'
 # ap config
 
-
 # ToolsConfig.load_config home, 'config'
 # ToolsConfig.write_config home, 'config'
 
- #ToolsLog.create_log_file 'tools', '/home/francisco/2018/xykotools/tools/xyko.log'
+# ToolsLog.create_log_file 'tools', '/home/francisco/2018/xykotools/tools/xyko.log'
 
 # class Hash
 #  def has_shape?(shape)
@@ -456,23 +404,14 @@ exit
 #  end
 # end
 
-
 # cmdapi_home =  "/home/francisco/2018/xykotools/tools"
 # cmdapi_configfile = cmdapi_home + '/cmdapi.config'
 # ToolsConfig.create_config_file 'cmdapi', cmdapi_configfile, :yaml, # {:first_time => true}
-
-
-
-
-
-
-
 
 # config_file_path = ToolsUtil.get_variable "cmdapi_config_file"
 # config_file_type = ToolsUtil.get_variable "cmdapi_config_type"
 
 # config_file  = ToolsConfig.load_config config_file_path
-
 
 #   data = {
 # :cloud => {
@@ -560,23 +499,15 @@ exit
 #         }
 # }
 
-
 # exit
-
-
-
-
 
 # config = ToolsConfig.load_config config_file
 
 # ap config
 
+# realize Supso::Filer::Mount["/mnt/projetos/apikeys/globosdn_controller"]
 
-  #realize Supso::Filer::Mount["/mnt/projetos/apikeys/globosdn_controller"]
-
-#globointerno.cmfdnc01:/dev/portal/
-
-
+# globointerno.cmfdnc01:/dev/portal/
 
 # config = ToolsConfig.load_config config_file
 
@@ -590,7 +521,6 @@ exit
 
 # ToolsCache.xyko_set data
 # ToolsCache.xyko_unset data
-
 
 # ToolsConfig.create_config_file 'glbapi', '/home/francisco/.glbapi/glbapi.config'
 

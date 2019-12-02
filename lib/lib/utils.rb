@@ -25,7 +25,7 @@ class ToolsUtil
   # @param  hash
   # return  hash symbolized
   def self.symbolize_keys(hash)
-    hash.inject({}){|result, (key, value)|
+    hash.each_with_object({}) do |(key, value), result|
       new_key = case key
                 when String then key.to_sym
                 else key
@@ -35,66 +35,58 @@ class ToolsUtil
                   else value
                   end
       result[new_key] = new_value
-      result
-    }
+    end
   end
-
-
 
   # Test a valid json string.
   #
   # @param  source Json string to be tested
   # @return boolean
-  def self.valid_json? source
-    begin
-      !!JSON.parse(source)
-    rescue JSON::ParserError
-      false
-    end
+  def self.valid_json?(source)
+    !!JSON.parse(source)
+  rescue JSON::ParserError
+    false
   end
 
   # Test a valid yaml string.
   #
   # @param  source Yaml string to be tested
   # @return boolean
-  def self.valid_yaml? source
-    begin
-      !!YAML.parse(source)
-    rescue Psych::SyntaxError
-      false
-    end
+  def self.valid_yaml?(source)
+    !!YAML.parse(source)
+  rescue Psych::SyntaxError
+    false
   end
 
   # Return a formated DateTime.
   #
   # @param format with a DateTime format default are: 12 Outubro 2018, 08:29
   # @return [String] formated date
-  def self.get_date format='%e %B %Y, %H:%M'
-    return I18n.l(DateTime.now, :format => format)
+  def self.get_date(format = '%e %B %Y, %H:%M')
+    I18n.l(DateTime.now, format: format)
   end
-
 
   # Modify the class variable.. String => change value, Hash => merge, Array => insert
   #
   # @param variable name variable
   # @param value    value veriable
   # @return []
-  def self.set_variable_ext variable, value
-    if self.instance_variable_defined? ("@#{variable}")
-      aux = self.get_variable variable
+  def self.set_variable_ext(variable, value)
+    if instance_variable_defined? "@#{variable}"
+      aux = get_variable variable
       case aux.class.to_s
       when 'String'
-         self.set_variable variable, value
+        set_variable variable, value
       when 'Hash'
-         begin
-          aux.merge! value
-          self.set_variable variable, aux
-        rescue
+        begin
+         aux.merge! value
+         set_variable variable, aux
+        rescue StandardError
           ToolsDisplay.show "\tToolsDisplay error [set_variable_ext]. Attempt insert #{variable.class} into Hash variable....".light_red
-        end
+       end
       when 'Array'
-        aux.insert(-1,value)
-        self.set_variable variable, aux
+        aux.insert(-1, value)
+        set_variable variable, aux
       end
     end
   end
@@ -104,44 +96,43 @@ class ToolsUtil
   # @param variable   variable name to set
   # @param value      value for variable
   # @return []
-  def self.set_variable variable, value
-    self.instance_variable_set("@#{variable}", value)
+  def self.set_variable(variable, value)
+    instance_variable_set("@#{variable}", value)
   end
 
   # Get a existent class variable.
   #
   # @param variable   variable name to retrive
   # @return     variable value
-  def self.get_variable variable
-    return self.instance_variable_get("@#{variable}")
+  def self.get_variable(variable)
+    instance_variable_get("@#{variable}")
   end
 
   # Get all existent class variablea.
   #
   # @return     variables
   def self.get_variables
-    return self.instance_variables
+    instance_variables
   end
 
   # Return a plain text for content of String or Hash or Array.
   #
   # @param   value  Content of variable to translate to Plaint text
   # @return  plain text content
-  def self.get_plain_text value
-   case value.class.to_s
-      when 'String'
-        return  "\t#{value.yellow}"
-      when 'Hash','Array'
-        old_stdout = $stdout
-        captured_stdio = StringIO.new('', 'w')
-        $stdout = captured_stdio
-        ap value, {:plain => true}
-        $stdout = old_stdout
-        value = captured_stdio.string
-        return value
-      else
-        return value
-      end
+  def self.get_plain_text(value)
+    case value.class.to_s
+    when 'String'
+      "\t#{value.yellow}"
+    when 'Hash', 'Array'
+      old_stdout = $stdout
+      captured_stdio = StringIO.new('', 'w')
+      $stdout = captured_stdio
+      ap value, plain: true
+      $stdout = old_stdout
+      value = captured_stdio.string
+      value
+    else
+      value
+       end
   end
-
 end

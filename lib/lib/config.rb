@@ -2,10 +2,7 @@ require 'singleton'
 class ToolsConfig
   include Singleton
 
-  def initialize(options = {})
-  end
-
-
+  def initialize(options = {}); end
 
   # Create a Config file in work area
   #
@@ -23,33 +20,33 @@ class ToolsConfig
   # @param config_type
   # @param data
   # @return
-  def self.create_config_file config_name, config_file, config_type = :json, data = {}
-    unless File.exists? config_file
+  def self.create_config_file(config_name, config_file, config_type = :json, data = {})
+    if File.exist? config_file
+      # ToolsLog.tools_warn "The file #{config_file} really exist. leaving operation...."
+      return false
+    else
       case config_type
       when :json
         config = File.open(config_file, 'w')
         config.write JSON.pretty_generate(data)
         config.close
-        #ToolsLog.tools_info "Json config file '#{config_file}' was created!'"
-        #return true
+        # ToolsLog.tools_info "Json config file '#{config_file}' was created!'"
+        # return true
       when :yaml
         config = File.open(config_file, 'w')
         config.write data.to_yaml
         config.close
-        #ToolsLog.tools_info "Json config file '#{config_file}' was created!'"
-        #return true
+        # ToolsLog.tools_info "Json config file '#{config_file}' was created!'"
+        # return true
       end
-    else
-      #ToolsLog.tools_warn "The file #{config_file} really exist. leaving operation...."
-      return false
     end
+
     ToolsUtil.set_variable "#{config_name}_config_file", config_file
     ToolsUtil.set_variable "#{config_name}_config_type", config_type
   end
 
-
-  def self.method_missing(method, *args, &block)
-    #expected call format =>    STRING_LOGGER_TYPE + '_' + LOGGER_TYPE
+  def self.method_missing(method, *_args)
+    # expected call format =>    STRING_LOGGER_TYPE + '_' + LOGGER_TYPE
     # Ex.:  tools_info
     config_name   = method.to_s.split('_').first
     config_method = method.to_s.split('_').last
@@ -57,11 +54,10 @@ class ToolsConfig
     config_type   = ToolsUtil.get_variable "#{config_name}_config_type"
   end
 
-
   # Test and register a config file in work area
   # @param source
   # @return boolean
-  def self.test_config_type source
+  def self.test_config_type(source)
     file        = open(source)
     content     = file.read
     if ToolsUtil.valid_json? content
@@ -78,11 +74,10 @@ class ToolsConfig
     ToolsUtil.set_variable 'config_file_type', config_type
   end
 
-
   # Load a content from a config file in work area
   # @param source
   # @return content
-  def self.load_config source
+  def self.load_config(source)
     test_config_type source
     case ToolsUtil.get_variable 'config_file_type'
     when :json
@@ -92,8 +87,8 @@ class ToolsConfig
       ToolsUtil.set_variable 'config_data', parsed
       return parsed
     when :yaml
-      file    = open(source)
-      parsed = YAML.load(file.read)
+      file = open(source)
+      parsed = YAML.safe_load(file.read)
       ToolsUtil.set_variable 'config_data', parsed
       return parsed
     end
@@ -102,7 +97,7 @@ class ToolsConfig
   # Merge data in config file in work area
   # @param source
   # @return content
-  def self.insert_in_config source, command
+  def self.insert_in_config(source, command)
     test_config_type source
     file = open(source)
     case ToolsUtil.get_variable 'config_file_type'
@@ -116,7 +111,7 @@ class ToolsConfig
       file.close
     when :yaml
       yaml = file.read
-      parsed = YAML.load(yaml)
+      parsed = YAML.safe_load(yaml)
       parsed.rmerge!(command)
       file.close
       file = open(source, 'w')
@@ -127,7 +122,7 @@ class ToolsConfig
 
   # Change data in config file in work area
   # @param args Sequence keys to locate the value in hash
-  def self.change_value_in_config *args
+  def self.change_value_in_config(*args)
     source = args.extract_first
     value  = args.extract_first
     test_config_type source
@@ -144,7 +139,7 @@ class ToolsConfig
     when :yaml
       file = open(source)
       yaml = file.read
-      parsed = YAML.load(yaml)
+      parsed = YAML.safe_load(yaml)
       parsed.nested_set(args, value)
       file.close
       file = open(source, 'w')
@@ -153,22 +148,13 @@ class ToolsConfig
     end
   end
 
+  def self.validate_config; end
 
+  def self.check_config; end
 
-  def self.validate_config
-  end
+  def self.purge_backup_config; end
 
-  def self.check_config
-  end
+  def self.config_backup; end
 
-  def self.purge_backup_config
-  end
-
-  def self.config_backup
-  end
-
-  def self.daily_backup_config
-  end
-
-
+  def self.daily_backup_config; end
 end

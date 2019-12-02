@@ -1,5 +1,4 @@
 class String
-
   # Justity relative left or right position filled with a espefific char in String.
   #
   # sample:
@@ -10,12 +9,12 @@ class String
   # @param    size to justify.
   # @param    pattern pattern do justify
   # @return   formated string
-  def fix(size, pattern=' ')
+  def fix(size, pattern = ' ')
     if size >= 0
       self[0...size].rjust(size, pattern)
     else
       diff = size.abs - self.size
-      self + ''.fix(diff,pattern)
+      self + ''.fix(diff, pattern)
     end
   end
 
@@ -45,7 +44,9 @@ class String
   #
   # @return   boolean
   def numeric?
-    Float(self) != nil rescue false
+    !Float(self).nil?
+  rescue StandardError
+    false
   end
 
   # Self test digits String class.
@@ -70,14 +71,13 @@ class String
   end
 
   def help?
-    if self.eql? '?'      or
-       self.eql? '-h'     or
-       self.eql? '--help' or
-       self.eql? 'help'
-       return true
+    if eql?('?') ||
+       eql?('-h')     ||
+       eql?('--help') ||
+       eql?('help')
+      true
     else
-      return false
+      false
     end
   end
-
 end

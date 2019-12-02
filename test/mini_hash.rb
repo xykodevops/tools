@@ -1,5 +1,4 @@
 class ToolsModuleTest < Minitest::Test
-
   def self.test_order
     :sorted
   end
@@ -8,59 +7,50 @@ class ToolsModuleTest < Minitest::Test
     data = {
       'k1' => 100,
       'k2' => 'v2',
-      :k3  => {
-        :a => 100,
-      },
+      :k3 => {
+        a: 100
+      }
     }
     result = {
-      "k1" => 100,
-      "k2" => "v2",
-       :k3 => {
-           :a => 100,
-          :k2 => 200
+      'k1' => 100,
+      'k2' => 'v2',
+      :k3 => {
+        a: 100,
+        k2: 200
       },
-       :k1 => 100,
+      :k1 => 100
     }
-    data.rmerge!( {:k1 => 100} )
-    data.rmerge!( {:k3 => {:k2 => 200}})
+    data.rmerge!(k1: 100)
+    data.rmerge!(k3: { k2: 200 })
     assert_equal data, result
 
     result_merge = {
-        "k1" => 100,
-        "k2" => "v2",
-         :k3 => {
-             :a => 100,
-            :k2 => 200
-        },
-         :k1 => 100
+      'k1' => 100,
+      'k2' => 'v2',
+      :k3 => {
+        a: 100,
+        k2: 200
+      },
+      :k1 => 100
     }
 
-    hash = data.rmerge( {:k1 => 100} )
+    hash = data.rmerge(k1: 100)
     assert_equal hash, result_merge
 
-    x = {:k1 => 100 , :k2 => { :k3 => {:a => 100}}}
-    assert_equal x.rblank,  {:k2 => {:k3 => {}}}
-    assert_equal x.rblank!,  {:k2 => {:k3 => {}}}
+    x = { k1: 100, k2: { k3: { a: 100 } } }
+    assert_equal x.rblank, k2: { k3: {} }
+    assert_equal x.rblank!,  k2: { k3: {} }
 
-    x = {:k1 => 100 , :k2 => { :k3 => {:a => 100}}}
+    x = { k1: 100, k2: { k3: { a: 100 } } }
     y = x.rblank
     diff = x.diff y
-    assert_equal diff, {:k1=>[100, nil], :k2=>{:k3=>{:a=>[100, nil]}}}
+    assert_equal diff, k1: [100, nil], k2: { k3: { a: [100, nil] } }
 
-
-    x = {:k1 => 100 , :k2 => { :k3 => {:a => 100}}}
-    y = x.nested_set [:k2,:k3,:a], 200
-    assert_equal x, {:k1 => 100 , :k2 => { :k3 => {:a => 200}}}
-
+    x = { k1: 100, k2: { k3: { a: 100 } } }
+    y = x.nested_set %i[k2 k3 a], 200
+    assert_equal x, k1: 100, k2: { k3: { a: 200 } }
   end
-
-
-
-
-
 end
-
-
 
 # module HashRecursiveBlank
 #   def rblank
@@ -123,7 +113,6 @@ end
 #       end
 #     end
 # end
-
 
 # class Hash
 

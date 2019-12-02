@@ -2,8 +2,7 @@ require 'singleton'
 class ToolsDisplay
   include Singleton
 
-  def initialize(options = {})
-  end
+  def initialize(options = {}); end
 
   # Tools to awesome prints
   #
@@ -14,25 +13,21 @@ class ToolsDisplay
   #
   # @param arguments
   # @return [String] printed
-  def self.show *arguments
+  def self.show(*arguments)
     post = arguments[0]
-    unless (post.class == String)
-      return post.class.to_s
-    end
+    return post.class.to_s unless post.class == String
 
     color      = arguments.extract_color
     sameline   = arguments.extract_symbol :sameline
-    #nocolor    = arguments.extract_symbol :nocolor
+    # nocolor    = arguments.extract_symbol :nocolor
     colorized  = arguments.extract_symbol :colorized
 
-    unless sameline
-      post += "\n"
-    end
+    post += "\n" unless sameline
 
     if colorized
-      printf "#{post}"
+      printf post.to_s
     else
-      printf "#{post}".colorize(color)
+      printf post.to_s.colorize(color)
     end
 
     # unless nocolor
@@ -44,11 +39,9 @@ class ToolsDisplay
     #     printf "#{post}"
     #   end
     # end
-
   end
 
-  def self.show_colorize *arguments
+  def self.show_colorize(*arguments)
     puts arguments.first
   end
-
 end

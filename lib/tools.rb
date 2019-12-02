@@ -1,4 +1,4 @@
-require "tools/version"
+require 'tools/version'
 
 # Basic models
 require 'lib/utils'
@@ -20,7 +20,6 @@ require 'lib/console'
 load __dir__ + '/files/requireds.rb'
 
 module Tools
-
   class Configuration
     attr_accessor :console_prompt
   end
@@ -32,9 +31,7 @@ module Tools
       self.configuration ||= Configuration.new
       yield(configuration)
     end
-
   end
-
 
   def self.root
     File.dirname __dir__
@@ -71,15 +68,11 @@ module Tools
   def self.gem_path
     ENV['GEM_PATH']
   end
-
 end
 
 Tools.configure do |config|
   config.console_prompt = Tools::VERSION
   I18n.load_path = Dir[Tools.files + '/pt-BR.yml']
   I18n.locale    = 'pt-BR'.to_sym
- #ToolsUtil.instance
+  # ToolsUtil.instance
 end
-
-
-

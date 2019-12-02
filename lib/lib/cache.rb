@@ -2,9 +2,7 @@ require 'singleton'
 class ToolsCache
   include Singleton
 
-  def initialize(options = {})
-  end
-
+  def initialize(options = {}); end
 
   # Create a cache file in work area
   #
@@ -12,11 +10,10 @@ class ToolsCache
   # @param cache_file
   # @param ttl
   # @return
-  def self.create_cache_file cache_name, cache_file, ttl=nil
+  def self.create_cache_file(cache_name, cache_file, ttl = nil)
     cache = Persistent::Cache.new(cache_file, ttl)
     ToolsUtil.set_variable "#{cache_name}_cache", cache
   end
-
 
   # Add a record in a cache work area
   #
@@ -41,8 +38,7 @@ class ToolsCache
   # @param args
   # @param block
   # @return
-  def self.method_missing(method, *args, &block)
-
+  def self.method_missing(method, *args)
     cache_name   = method.to_s.split('_').first
     cache_method = method.to_s.split('_').last
     cache        = ToolsUtil.get_variable "#{cache_name}_cache"
@@ -52,9 +48,7 @@ class ToolsCache
     when 'set'
       key    = args.extract_first
       values = args.extract_first
-      unless cache.key?(key)
-        cache[key] = values
-      else
+      if cache.key?(key)
         aux = cache[key]
         case aux.class.to_s
         when 'Hash'
@@ -70,15 +64,17 @@ class ToolsCache
           case values.class.to_s
           when 'Array'
             values.each do |value|
-              aux.insert(-1,value)
+              aux.insert(-1, value)
             end
             cache[key] = aux
           else
-            aux.insert(-1,values)
+            aux.insert(-1, values)
             cache[key] = aux
           end
         end
 
+      else
+        cache[key] = values
       end
 
     # when 'set'
@@ -125,12 +121,9 @@ class ToolsCache
       return result
 
     when 'clear'
-       cache.each do |key|
+      cache.each do |key|
         cache[key] = nil
       end
     end
-
   end
-
-
 end

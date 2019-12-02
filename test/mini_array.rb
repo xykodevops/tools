@@ -1,19 +1,18 @@
 class ToolsModuleTest < Minitest::Test
-
   def self.test_order
     :sorted
   end
 
   def test_hash_A_extract_first
-    assert_equal ['a','b','c'].extract_first, 'a'
+    assert_equal %w[a b c].extract_first, 'a'
   end
 
   def test_hash_B_extract_first
-    assert_equal  (['a',:color,'c'].extract_symbol :color), true
+    assert_equal (['a', :color, 'c'].extract_symbol :color), true
   end
 
   def test_hash_C_extract_color
-    args   = ['xxx', '-x', '-vvv', :yellow, '-c', '-vcv', '-v2', '-vvvvv', '-s', :json,  :red, :json]
+    args   = ['xxx', '-x', '-vvv', :yellow, '-c', '-vcv', '-v2', '-vvvvv', '-s', :json, :red, :json]
     yellow = args.extract_color
     color  = args.extract_color
     assert_equal yellow, :yellow
@@ -21,7 +20,7 @@ class ToolsModuleTest < Minitest::Test
   end
 
   def test_hash_D_extract_option
-    args   = ['xxx', '-x', '-vvv', :yellow, ':red','-c', '-vcv', '-v2', '-vvvvv', '-s', :json,  :red, :json]
+    args   = ['xxx', '-x', '-vvv', :yellow, ':red', '-c', '-vcv', '-v2', '-vvvvv', '-s', :json, :red, :json]
     yellow = args.extract_color
     red1    = args.extract_color
     red2    = args.extract_color
@@ -38,16 +37,12 @@ class ToolsModuleTest < Minitest::Test
   end
 
   def test_hash_D_extract_option_value
-    args   = ['-o', 'um', '-o', 'dois', '--desc', 'description', '-v', '-v', '-o', 'tres', '-s', :json,  :red, :json]
+    args = ['-o', 'um', '-o', 'dois', '--desc', 'description', '-v', '-v', '-o', 'tres', '-s', :json, :red, :json]
     desc_status, desc = args.extract_option_value '--desc'
-    status, origin    = args.extract_option_value '-o', {:multiple => true}
+    status, origin    = args.extract_option_value '-o', multiple: true
     assert_equal desc_status, true
     assert_equal desc, 'description'
     assert_equal status, true
-    assert_equal origin, ['um','um','dois','dois','tres','tres']
+    assert_equal origin, %w[um um dois dois tres tres]
   end
-
-
 end
-
-

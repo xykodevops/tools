@@ -1,23 +1,22 @@
 class Array
-
   # Self pop first element.
   # @return   first element
   def extract_first
     first = self[0]
-    self.delete_at(0)
-    return first
+    delete_at(0)
+    first
   end
 
   # Self extract symbol.
   # @param    symbol to retrive
   # @return   boolean
-  def extract_symbol symbol
+  def extract_symbol(symbol)
     status = false
-    if self.include? symbol
+    if include? symbol
       status = true
-      self.delete(symbol)
+      delete(symbol)
     end
-    return status
+    status
   end
 
   # Self extract color.
@@ -25,29 +24,26 @@ class Array
   def extract_color
     colors = String.colors
     color  = :default
-    self.each do |argument|
+    each do |argument|
       if argument.symbol?
         if colors.include? argument
           color = argument
-          self.delete(argument)
+          delete(argument)
           return color
         end
       else
         if argument.string?
           if argument.start_with? ':'
-            color_candidate = argument.gsub(':','').to_sym
+            color_candidate = argument.gsub(':', '').to_sym
             color = color_candidate if colors.include? color_candidate
-            self.delete(argument)
+            delete(argument)
             return color
           end
         end
       end
     end
-    return color
+    color
   end
-
-
-
 
   # Self extract option.
   # @param    option to extract.
@@ -65,67 +61,60 @@ class Array
   # args.extract_color                 => red
   # args                               => [-c -vcv -v2 -s ]
   #
-  def extract_option option, single = true
+  def extract_option(option, single = true)
     if single
       result = false
-      if self.include? option
+      if include? option
         index = self.index(option)
-        self.delete_at(index)
+        delete_at(index)
         result = true
       end
     else
       result = 0
-      self.each do |argument|
-        if argument.to_s.start_with? option
-         #puts "'#{option}' '#{argument}' #{argument.start_with? option} \n"
-         search_char = option.sub('-','')
-         aux_string  = argument.to_s.sub('-','')
-         count       = argument.to_s.count(search_char)
-         if (count == aux_string.size)
-           result = result + count
-           #self.delete(argument)
-         end
-        end
+      each do |argument|
+        next unless argument.to_s.start_with? option
 
+        # puts "'#{option}' '#{argument}' #{argument.start_with? option} \n"
+        search_char = option.sub('-', '')
+        aux_string  = argument.to_s.sub('-', '')
+        count       = argument.to_s.count(search_char)
+        if count == aux_string.size
+          result += count
+          # self.delete(argument)
+        end
       end
     end
-    return result
+    result
   end
 
-  def extract_option_value option, args={}
+  def extract_option_value(option, args = {})
+    args[:multiple] = false if args[:multiple].nil?
 
-    if args[:multiple].nil?
-      args[:multiple] = false
-    end
-
-    if args[:separator].nil?
-      args[:separator] = '='
-    end
+    args[:separator] = '=' if args[:separator].nil?
 
     result = false
     if args[:multiple]
       multiple_value = []
-      while self.include? option
+      while include? option
         index = self.index(option)
-        self.delete_at(index)
+        delete_at(index)
         result = true
-        value = self.at(index)
-        multiple_value << self.at(index).split(args[:separator]).first
-        multiple_value << self.at(index).split(args[:separator]).last
-        self.delete_at(index)
+        value = at(index)
+        multiple_value << at(index).split(args[:separator]).first
+        multiple_value << at(index).split(args[:separator]).last
+        delete_at(index)
       end
       return [result, multiple_value]
     else
-      value  = nil
-      while self.include? option
+      value = nil
+      while include? option
         index = self.index(option)
-        self.delete_at(index)
+        delete_at(index)
         result = true
-        value = self.at(index)
-        self.delete_at(index)
+        value = at(index)
+        delete_at(index)
       end
       return [result, value]
     end
   end
-
 end

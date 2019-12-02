@@ -1,15 +1,11 @@
-# coding: utf-8
-
-
 require 'bundler/gem_helper'
-Bundler::GemHelper.install_tasks :name => "tools"
+Bundler::GemHelper.install_tasks name: 'tools'
 
-#require 'bundler/gem_tasks'
+# require 'bundler/gem_tasks'
 require_relative 'lib/tools/version'
 
-
 # Default.
-task :default => :help
+task default: :help
 
 # Help.
 desc 'Help'
@@ -26,7 +22,7 @@ task :dev do
 
   Rake::Task['install'].invoke
 
-  source = File.dirname(File.absolute_path __FILE__)
+  source = File.dirname(File.absolute_path(__FILE__))
   target = "#{ENV['GEM_HOME']}/gems/tools-#{Tools::VERSION}"
   target_bin = "#{ENV['GEM_HOME']}/bin/tools"
   system("rm -f #{target_bin}")
@@ -37,16 +33,14 @@ task :dev do
   puts 'You may now start editing and testing files from within this repo.'
 end
 
-
-desc "Release the gem in rubygems (DEV)"
+desc 'Release the gem in rubygems (DEV)'
 task :push do
-  gem_file   = "#{ENV['PWD']}/pkg/tools-#{Tools::VERSION}.gem"
+  gem_file = "#{ENV['PWD']}/pkg/tools-#{Tools::VERSION}.gem"
   gem_server_url = 'https://rubygems.org'
   system("gem push #{gem_file}  --host #{gem_server_url}")
 end
 
-
-desc "Run all minitests."
+desc 'Run all minitests.'
 task :mini do
-  system("./test/minitest/run")
+  system('./test/minitest/run')
 end

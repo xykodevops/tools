@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
-# coding: utf-8
+
 require 'simplecov'
 require 'minitest/autorun'
-require "minitest/reporters"
+require 'minitest/reporters'
 SimpleCov.start do
   add_filter 'test'
 end
@@ -10,22 +10,22 @@ require 'rubygems'
 require_relative '../lib/tools'
 Dir['./lib/lib/*.rb'].sort.each { |f| require f }
 
-#Dir['./bin/*'].sort.each { |f| require f }
+# Dir['./bin/*'].sort.each { |f| require f }
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-here       = File.dirname(File.realpath(__FILE__))
+here       = __dir__
 mini_tests = Dir["#{here}/mini*.rb"]
 
-if ARGV.size > 0
+if !ARGV.empty?
 
   files = []
   ARGV.each do |arq|
     file =  "#{here}/mini_#{arq}.rb"
-    unless mini_tests.include? file
-      puts "Leave this parameter: File not found -> #{file}".light_red
-    else
+    if mini_tests.include? file
       files << file
+    else
+      puts "Leave this parameter: File not found -> #{file}".light_red
     end
   end
   files.each do |file|

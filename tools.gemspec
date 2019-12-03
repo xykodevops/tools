@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'minitest-reporters'
   spec.add_runtime_dependency 'net-ping'
   spec.add_runtime_dependency 'net-ssh'
-  spec.add_runtime_dependency 'netaddr', '~> 1.5', '>= 1.5.0'
+  spec.add_runtime_dependency 'netaddr', '~> 2.0.0'
   spec.add_runtime_dependency 'persistent-cache'
   spec.add_runtime_dependency 'progress_bar'
   spec.add_runtime_dependency 'prompt'
@@ -53,4 +53,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'xml-simple'
 
   spec.metadata['yard.run'] = 'yri'
+
+  spec.required_ruby_version = '~> 2.2.0'
 end

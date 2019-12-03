@@ -15,29 +15,17 @@ class ToolsDisplay
   # @return [String] printed
   def self.show(*arguments)
     post = arguments[0]
-    return post.class.to_s unless post.class == String
+    return post.class.to_s unless post.is_a? String
 
     color      = arguments.extract_color
     sameline   = arguments.extract_symbol :sameline
-    # nocolor    = arguments.extract_symbol :nocolor
     colorized  = arguments.extract_symbol :colorized
-
     post += "\n" unless sameline
-
-    if colorized
-      printf post.to_s
-    else
-      printf post.to_s.colorize(color)
-    end
-
-    # unless nocolor
-    #   printf "#{post}".colorize(color)
+    colorized ? printf(post.to_s) : printf(post.to_s.colorize(color))
+    # if colorized
+    #   printf post.to_s
     # else
-    #   if colorized
-    #     ap post
-    #   else
-    #     printf "#{post}"
-    #   end
+    #   printf post.to_s.colorize(color)
     # end
   end
 

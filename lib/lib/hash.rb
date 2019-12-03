@@ -56,7 +56,7 @@ class Hash
                     [self[key], other[key]]
                   end
     end
-    end
+  end
 end
 
 class Hash

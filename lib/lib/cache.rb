@@ -55,7 +55,7 @@ class ToolsCache
           begin
             aux.merge! values
             cache[key] = aux
-          rescue Exception => e
+          rescue StandardError => e
             ToolsDisplay.show "\tError in ToolsCache:  #{e.exception}", :light_yellow
             exit
           end

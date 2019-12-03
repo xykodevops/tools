@@ -22,27 +22,19 @@ class Array
   # Self extract color.
   # @return   boolean
   def extract_color
-    colors = String.colors
-    color  = :default
     each do |argument|
-      if argument.symbol?
-        if colors.include? argument
-          color = argument
-          delete(argument)
-          return color
-        end
-      else
-        if argument.string?
-          if argument.start_with? ':'
-            color_candidate = argument.gsub(':', '').to_sym
-            color = color_candidate if colors.include? color_candidate
-            delete(argument)
-            return color
-          end
-        end
+      if argument.symbol? && String.colors.include?(argument)
+        color = argument
+        delete(argument)
+        return color
+      elsif argument.string? && argument.start_with?(':')
+        color_candidate = argument.gsub(':', '').to_sym
+        color = color_candidate if String.colors.include? color_candidate
+        delete(argument)
+        return color
       end
     end
-    color
+    :default
   end
 
   # Self extract option.
@@ -73,7 +65,6 @@ class Array
       result = 0
       each do |argument|
         next unless argument.to_s.start_with? option
-
         # puts "'#{option}' '#{argument}' #{argument.start_with? option} \n"
         search_char = option.sub('-', '')
         aux_string  = argument.to_s.sub('-', '')

@@ -7,12 +7,12 @@ class ToolsModuleTest < Minitest::Test
     mock = MiniTest::Mock.new
     def mock.start(*_args)
       true
-   end
+    end
     Prompt::Console.stub :start, mock do
       assert_equal ToolsConsole.create_console.class, Array
       assert_equal (ToolsConsole.exec_console ['test']), true
       assert_equal (ToolsConsole.exec_console ['tes']), false
-      #assert_equal ToolsConsole.run_console
+      ToolsConsole.run_console
     end
   end
 end

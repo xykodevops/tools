@@ -18,8 +18,10 @@ require 'lib/prompt'
 require 'lib/console'
 
 load __dir__ + '/files/requireds.rb'
+include Dnsruby
 
 module Tools
+
   class Configuration
     attr_accessor :console_prompt
   end

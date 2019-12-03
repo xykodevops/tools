@@ -35,5 +35,3 @@ require 'tty-editor'
 require 'tty-prompt'
 require 'xmlsimple'
 require 'yaml'
-
-include Dnsruby

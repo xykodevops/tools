@@ -21,56 +21,41 @@ class ToolsConfig
   # @param data
   # @return
   def self.create_config_file(config_name, config_file, config_type = :json, data = {})
-    if File.exist? config_file
-      # ToolsLog.tools_warn "The file #{config_file} really exist. leaving operation...."
-      return false
-    else
-      case config_type
-      when :json
-        config = File.open(config_file, 'w')
-        config.write JSON.pretty_generate(data)
-        config.close
-        # ToolsLog.tools_info "Json config file '#{config_file}' was created!'"
-        # return true
-      when :yaml
-        config = File.open(config_file, 'w')
-        config.write data.to_yaml
-        config.close
-        # ToolsLog.tools_info "Json config file '#{config_file}' was created!'"
-        # return true
-      end
-    end
+    return false if File.exist? config_file
 
+    case config_type
+    when :json
+      config = File.open(config_file, 'w')
+      config.write JSON.pretty_generate(data)
+      config.close
+    when :yaml
+      config = File.open(config_file, 'w')
+      config.write data.to_yaml
+      config.close
+    end
     ToolsUtil.set_variable "#{config_name}_config_file", config_file
     ToolsUtil.set_variable "#{config_name}_config_type", config_type
   end
 
   def self.method_missing(method, *_args)
-    # expected call format =>    STRING_LOGGER_TYPE + '_' + LOGGER_TYPE
-    # Ex.:  tools_info
-    config_name   = method.to_s.split('_').first
-    config_method = method.to_s.split('_').last
-    config_file   = ToolsUtil.get_variable "#{config_name}_config_file"
-    config_type   = ToolsUtil.get_variable "#{config_name}_config_type"
+    config_name = method.to_s.split('_').first
+    ToolsUtil.get_variable "#{config_name}_config_file"
+    ToolsUtil.get_variable "#{config_name}_config_type"
   end
 
   # Test and register a config file in work area
   # @param source
   # @return boolean
   def self.test_config_type(source)
-    file        = open(source)
+    file        = File.open(source)
     content     = file.read
-    if ToolsUtil.valid_json? content
-      config_type = :json
-    else
-      if ToolsUtil.valid_yaml? content
-        config_type = :yaml
-      else
-        config_type = :invalid
-        ToolsLog.tools_error "Invalid format in config file in '#{source}'.", :light_red
-        ToolsLog.tools_exit
-      end
-    end
+    config_type = if ToolsUtil.valid_json? content
+                    :json
+                  elsif ToolsUtil.valid_yaml? content
+                    :yaml
+                  else
+                    :invalid
+                  end
     ToolsUtil.set_variable 'config_file_type', config_type
   end
 
@@ -81,14 +66,14 @@ class ToolsConfig
     test_config_type source
     case ToolsUtil.get_variable 'config_file_type'
     when :json
-      file    = open(source)
+      file    = File.open(source)
       json    = file.read
       parsed  = JSON.parse(json)
       ToolsUtil.set_variable 'config_data', parsed
       return parsed
     when :yaml
-      file = open(source)
-      parsed = YAML.load(file.read)
+      file = File.open(source)
+      parsed = YAML.safe_load(file.read, [Symbol])
       ToolsUtil.set_variable 'config_data', parsed
       return parsed
     end
@@ -99,22 +84,22 @@ class ToolsConfig
   # @return content
   def self.insert_in_config(source, command)
     test_config_type source
-    file = open(source)
+    file = File.open(source)
     case ToolsUtil.get_variable 'config_file_type'
     when :json
       json = file.read
       parsed = JSON.parse(json)
       parsed.rmerge!(command)
       file.close
-      file = open(source, 'w')
+      file = File.open(source, 'w')
       file.write JSON.pretty_generate(parsed)
       file.close
     when :yaml
       yaml = file.read
-      parsed = YAML.load(yaml)
+      parsed = YAML.safe_load(yaml, [Symbol])
       parsed.rmerge!(command)
       file.close
-      file = open(source, 'w')
+      file = File.open(source, 'w')
       file.write parsed.to_yaml
       file.close
     end
@@ -128,21 +113,21 @@ class ToolsConfig
     test_config_type source
     case ToolsUtil.get_variable 'config_file_type'
     when :json
-      file = open(source)
+      file = File.open(source)
       json = file.read
       parsed = JSON.parse(json)
       parsed.nested_set(args, value)
       file.close
-      file = open(source, 'w')
+      file = File.open(source, 'w')
       file.write JSON.pretty_generate(parsed)
       file.close
     when :yaml
-      file = open(source)
+      file = File.open(source)
       yaml = file.read
-      parsed = YAML.load(yaml)
+      parsed = YAML.safe_load(yaml, [Symbol])
       parsed.nested_set(args, value)
       file.close
-      file = open(source, 'w')
+      file = File.open(source, 'w')
       file.write parsed.to_yaml
       file.close
     end

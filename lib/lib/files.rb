@@ -13,7 +13,8 @@ class ToolsFiles
   # @param select (sample: *.log)
   # @param elipsed_time in seconds (sample: 2 weeks = 14*24*60*60)
   # @return
-  def self.purge_files(path, select, time) # Cmdapi.configuration.home+'/.cmdapi/backup', '*',   14*24*60*60
+  # Cmdapi.configuration.home+'/.cmdapi/backup', '*',   14*24*60*60
+  def self.purge_files(path, select, time)
     to_clean = Dir.glob(File.join(path, select)).select do |a|
       Time.now - File.ctime(a) > time
     end
@@ -51,7 +52,7 @@ class ToolsFiles
   # @return
   def self.create_file(directory, file_name, file_name_set)
     complete_file = (directory + '/' + file_name).gsub('//', '/')
-    file = File.open(complete_file, 'w') unless File.exist? complete_file
+    File.open(complete_file, 'w') unless File.exist? complete_file
     ToolsUtil.set_variable file_name_set, complete_file
   end
 
@@ -63,10 +64,9 @@ class ToolsFiles
   # @param file_to_load Object
   # @return
   def self.load_file(file_to_load)
-    if File.exist? file_to_load
-      file = File.open(file_to_load, 'r')
-      file
-    end
+    return unless File.exist? file_to_load
+
+    File.open(file_to_load, 'r')
   end
 
   # Delete a file in work area
@@ -76,11 +76,10 @@ class ToolsFiles
   #  ToolsFiles.delete_file file_to_delete
   # @param file_to_delete Object
   # @return
-  def self.remove_file(file_to_removee)
-    if File.exist? file_to_removee
-      file = FileUtils.remove_file(file_to_removee)
-      file
-    end
+  def self.remove_file(file_to_remove)
+    return unless File.exist? file_to_remove
+
+    FileUtils.remove_file(file_to_remove)
   end
 
   def self.open_file(file, default_editor = nil)

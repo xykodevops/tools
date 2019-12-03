@@ -5,13 +5,10 @@ class ToolsConsole
   def self.exec_console(args)
     command_name = args.extract_first
     cmd = Prompt.application.commands.select { |c| c.name.eql? command_name }.first
-    if cmd.nil?
-      ToolsDisplay.show "Invalid command '#{command_name}'.! Aborting...", :light_yellow
-      return false
-    else
-      cmd.run cmd
-      return true
-    end
+    return false if cmd.nil?
+
+    cmd.run cmd
+    true
   end
 
   def initialize(options = {}); end
@@ -23,7 +20,8 @@ class ToolsConsole
 
     desc 'test'
     command 'test' do
-      puts 'Im a test.!'.yellow
+      # puts 'Im a test.!'.yellow
+      true
     end
   end
 

@@ -4,16 +4,17 @@ class ToolsNet
 
   def initialize(options = {}); end
 
+  # Test a host.
+  #
+  # Net::Ping::External.new(host || '0.0.0.1000', timeout = 1).ping?
+  #
+  # @param            host or ip variable to test
+  # @return [Boolean]
   def self.ping?(host)
-    Net::Ping::External.new(host || '0.0.0.1000', timeout = 1).ping?
+    Net::Ping::External.new(host || '0.0.0.1000', 1).ping?
   end
 
   def self.get_current_ip
-    # begin
-    #   ip = Socket::getaddrinfo(Socket.gethostname, "echo", Socket::AF_INET)[0][3]
-    #   return ip if IPAddress.valid?(ip)
-    # rescue Exception => e
-    # end
     ip = `ifconfig | grep -E '10\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'  | awk '{print $2}'`.split("\n").first
     unless valid_ip? ip
       ip = `ifconfig | grep -E '192\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'  | awk '{print $2}'`.split("\n").first
@@ -27,19 +28,14 @@ class ToolsNet
   # @param           ip variable ip to resolv
   # @return [String] Dns name resolved
   def self.resolv_ip_name(ip)
-    s = ''
-    begin
-      ret = Resolv.new.getname(ip)
-      return ret.instance_variable_get('@labels').join('.')
-    rescue Exception => e
-      case e.message
-      when 'Dnsruby::NXDomain'
-        return nil
-      else
-        return e.message
-      end
+    ret = Resolv.new.getname(ip)
+    ret.instance_variable_get('@labels').join('.')
+  rescue Exception => e
+    case e.message
+    when 'Dnsruby::NXDomain' then nil
+    else
+      e.message
     end
-    s.strip
   end
 
   # Resolv a dns to a ip.
@@ -47,18 +43,14 @@ class ToolsNet
   # @param domain variable ip to resolv
   # @return [String] Dns address resolved
   def self.resolv_dns(domain)
-    begin
-      dns = Dnsruby::DNS.new
-      ret = dns.getaddress(domain).to_s
-    rescue Exception => e
-      case e.message
-      when 'Dnsruby::NXDomain'
-        return nil
-      else
-        return e.message
-      end
+    dns = Dnsruby::DNS.new
+    dns.getaddress(domain).to_s
+  rescue Exception => e
+    case e.message
+    when 'Dnsruby::NXDomain' then nil
+    else
+      e.message
     end
-    ret
   end
 
   # Do the request, validate and decode response and do the retries if needed
@@ -228,7 +220,8 @@ class ToolsNet
     status = false
     begin
       status = IPAddress.valid?(original_addr)
-    rescue StandardError
+    rescue Exception => e
+      e
     end
     status
   end
@@ -242,7 +235,8 @@ class ToolsNet
     begin
       ip = IPAddress original_addr
       status = true if ip.network?
-    rescue StandardError
+    rescue Exception => e
+      e
     end
     status
   end

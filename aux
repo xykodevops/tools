@@ -3,11 +3,10 @@
 require 'rubygems'
 require 'tools'
 
-binding.pry
-file = open('/home/francisco/2018/xykotools/tools/tools_yaml.config')
-parsed = YAML.load(file.read)
+puts ToolsUtil.get_plain_text("xxxx")
+puts ToolsUtil.get_plain_text([10,20,30])
+puts ToolsUtil.get_plain_text({:a => 1})
 
-ap parsed
 
 # class Filesize
 

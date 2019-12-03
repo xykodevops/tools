@@ -53,21 +53,21 @@ class String
   #
   # @return   boolean
   def num?
-    !!match(/^[[:digit:]]+$/)
+    !match(/^[[:digit:]]+$/).nil?
   end
 
   # Self test alphanum String class.
   #
   # @return   boolean
   def alnum?
-    !!match(/^[[:alnum:]]+$/)
+    !match(/^[[:alnum:]]+$/).nil?
   end
 
   # Self test alpha String class.
   #
   # @return   boolean
   def alpha?
-    !!match(/^[[:alpha:]]+$/)
+    !match(/^[[:alpha:]]+$/).nil?
   end
 
   def help?

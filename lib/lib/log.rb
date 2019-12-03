@@ -22,9 +22,7 @@ class ToolsLog
   # @return
   def self.create_log_file(log_name, log_file)
     if File.exist? log_file
-      unless File.ctime(log_file).to_date == Time.now.to_date
-        File.delete(log_file)
-      end
+      File.delete(log_file) unless File.ctime(log_file).to_date == Time.now.to_date
     end
     ToolsUtil.set_variable "#{log_name}_log_file", log_file
     ToolsUtil.set_variable "#{log_name}_logger", Logger.new(log_file, 'daily')

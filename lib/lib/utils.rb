@@ -25,16 +25,30 @@ class ToolsUtil
   # @param  hash
   # return  hash symbolized
   def self.symbolize_keys(hash)
-    hash.each_with_object({}) do |(key, value), result|
-      new_key = case key
-                when String then key.to_sym
-                else key
-                end
-      new_value = case value
-                  when Hash then symbolize_keys(value)
-                  else value
-                  end
-      result[new_key] = new_value
+    {}.tap do |h|
+      hash.each { |key, value| h[key.to_sym] = map_value(value) }
+    end
+    # hash.each_with_object({}) do |(key, value), result|
+    #   new_key = case key
+    #             when String then key.to_sym
+    #             else key
+    #             end
+    #   new_value = case value
+    #               when Hash then symbolize_keys(value)
+    #               else value
+    #               end
+    #   result[new_key] = new_value
+    # end
+  end
+
+  def self.map_value(thing)
+    case thing
+    when Hash
+      symbolize_keys(thing)
+    when Array
+      thing.map { |v| map_value(v) }
+    else
+      thing
     end
   end
 
@@ -43,7 +57,7 @@ class ToolsUtil
   # @param  source Json string to be tested
   # @return boolean
   def self.valid_json?(source)
-    !!JSON.parse(source)
+    JSON.parse(source) && true
   rescue JSON::ParserError
     false
   end
@@ -53,7 +67,7 @@ class ToolsUtil
   # @param  source Yaml string to be tested
   # @return boolean
   def self.valid_yaml?(source)
-    !!YAML.parse(source)
+    YAML.parse(source) && true
   rescue Psych::SyntaxError
     false
   end
@@ -72,23 +86,34 @@ class ToolsUtil
   # @param value    value veriable
   # @return []
   def self.set_variable_ext(variable, value)
-    if instance_variable_defined? "@#{variable}"
-      aux = get_variable variable
-      case aux.class.to_s
-      when 'String'
-        set_variable variable, value
-      when 'Hash'
-        begin
-         aux.merge! value
-         set_variable variable, aux
-        rescue StandardError
-          ToolsDisplay.show "\tToolsDisplay error [set_variable_ext]. Attempt insert #{variable.class} into Hash variable....".light_red
-       end
-      when 'Array'
-        aux.insert(-1, value)
-        set_variable variable, aux
-      end
+    return unless instance_variable_defined? "@#{variable}"
+
+    aux = get_variable variable
+    case aux.class.to_s
+    when 'String'
+      set_string_variable variable, value
+    when 'Hash'
+      set_hash_variable variable, value, aux
+    when 'Array'
+      set_array_variable variable, value, aux
     end
+  end
+
+  def self.set_string_variable(variable, value)
+    set_variable variable, value
+  end
+
+  def self.set_hash_variable(variable, value, aux)
+    aux.merge! value
+    set_variable variable, aux
+  rescue StandardError
+    ToolsDisplay.show "\tToolsDisplay error [set_variable_ext].".light_red
+    ToolsDisplay.show "\tAttempt insert #{variable.class} into Hash variable....".light_red
+  end
+
+  def self.set_array_variable(variable, value, aux)
+    aux.insert(-1, value)
+    set_variable variable, aux
   end
 
   # Set a new class variable.
@@ -120,19 +145,27 @@ class ToolsUtil
   # @param   value  Content of variable to translate to Plaint text
   # @return  plain text content
   def self.get_plain_text(value)
-    case value.class.to_s
-    when 'String'
-      "\t#{value.yellow}"
-    when 'Hash', 'Array'
-      old_stdout = $stdout
-      captured_stdio = StringIO.new('', 'w')
-      $stdout = captured_stdio
-      ap value, plain: true
-      $stdout = old_stdout
-      value = captured_stdio.string
-      value
+    case value
+    when String then "\t#{value.yellow}"
+    when Hash, Array
+      # old_stdout = $stdout
+      # captured_stdio = StringIO.new('', 'w')
+      #   $stdout = captured_stdio
+      #   ap value, plain: true
+      # $stdout = old_stdout
+      # captured_stdio.string
+      get_plain_text_if_hash_or_array value
     else
       value
-       end
+    end
+  end
+
+  def self.get_plain_text_if_hash_or_array(value)
+    old_stdout = $stdout
+    captured_stdio = StringIO.new('', 'w')
+    $stdout = captured_stdio
+    ap value, plain: true
+    $stdout = old_stdout
+    captured_stdio.string
   end
 end

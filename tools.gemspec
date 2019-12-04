@@ -24,6 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'minitest-reporters'
   spec.add_development_dependency 'pry-byebug'
   spec.add_development_dependency 'simplecov'
+  spec.add_development_dependency 'rubocop', '0.68.1'
 
   spec.add_runtime_dependency 'addressable', '~> 2.6.0'
   spec.add_runtime_dependency 'awesome_print'
@@ -44,7 +45,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'prompt'
   spec.add_runtime_dependency 'public_suffix'
   spec.add_runtime_dependency 'rest-client', '~> 2.0', '= 2.0.2'
-  spec.add_runtime_dependency 'rubocop', '0.68.1'
   spec.add_runtime_dependency 'ruby-progressbar'
   spec.add_runtime_dependency 'similar_text'
   spec.add_runtime_dependency 'thor'

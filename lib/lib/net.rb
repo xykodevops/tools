@@ -169,7 +169,6 @@ class ToolsNet
     result[:msg]     = ''
     result[:address] = that
     result[:resolv]  = ''
-
     if IPAddress.valid_ipv4? that
       begin
         ip = IPAddress.valid_ipv4? that
@@ -185,7 +184,7 @@ class ToolsNet
       end
     else
       begin
-        net = NetAddr::CIDR.create that
+        net = NetAddr::IPv4Net.parse that
         result[:type]   = 'mask'
         result[:status] = true
       rescue Exception => e
@@ -212,8 +211,8 @@ class ToolsNet
   # @param  original_addr number to be validate.
   # @return [Boolean]
   def self.is_backend?(original_addr)
-    glbbackend = NetAddr::CIDR.create('10.0.0.0/8')
-    glbbackend.contains? original_addr
+    backend = NetAddr::IPv4Net.parse '10.0.0.0/8'
+    backend.contains (NetAddr::IPv4.parse original_addr)
   end
 
   def self.valid_ip?(original_addr)

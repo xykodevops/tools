@@ -34,10 +34,18 @@ class Object
     is_a?(String)
   end
 
-  # Self test nil Object class.
+  # Self empty? class.
   #
   # @return   boolean
-  # def nil?
-  #   return '' if self == nil
-  # end
+  def blank?
+    respond_to?(:empty?) ? !!empty? : !self
+  end
+
+  # Self blank class.
+  #
+  # @return   boolean
+  def present?
+    !blank?
+  end
+
 end

@@ -5,7 +5,11 @@ require 'tools'
 
 
 
-ap NetAddr::IPv4Net.parse '100.0.0.0/28x'
+ap ["/Personal/Francisco Correa", "/Personal/Francisco Correa/Externas", "/Personal/Francisco Correa/cmdapi"].sort_by{|s| s.length }.first
+
+
+
+
 
 
 
@@ -358,10 +362,10 @@ ap NetAddr::IPv4Net.parse '100.0.0.0/28x'
 # ToolsDisplay.show "TEXT GREEN", :green
 # ToolsDisplay.show "TEXT YELLOW", :yellow
 
-# msg       = "teste do encrypt".light_blue
-# passwd    = 'tools999'
-# encrypted = msg.encrypt passwd
-# puts (encrypted.decrypt passwd)
+msg       = "teste do encrypt".light_blue
+passwd    = 'tools999'
+encrypted = msg.encrypt passwd
+puts (encrypted.decrypt passwd)
 
 # ip = `ifconfig | grep -F 10. | awk '{print $2}' | cut -d: -f2`
 # ip = ip.split("\n").first if ip.include? "\n"

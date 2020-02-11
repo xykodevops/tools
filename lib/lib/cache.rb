@@ -42,6 +42,7 @@ class ToolsCache
     cache_name   = method.to_s.split('_').first
     cache_method = method.to_s.split('_').last
     cache        = ToolsUtil.get_variable "#{cache_name}_cache"
+    ttl_status, ttl_value = args.extract_option_value '--ttl'
 
     case cache_method
 

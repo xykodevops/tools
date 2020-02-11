@@ -89,4 +89,19 @@ class ToolsFiles
       TTY::Editor.open(file, command: default_editor)
     end
   end
+
+  def create_file_array file_name, content
+    file = File.open(file_name, 'w')
+    file.write content
+    file.close
+  end
+
+  def create_file_lines file_name, content
+    file = File.open(file_name, 'w')
+    content.each do |line|
+      file.puts line
+    end
+    file.close
+  end
+
 end

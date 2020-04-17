@@ -7,8 +7,9 @@ SimpleCov.start do
   add_filter 'test'
 end
 require 'rubygems'
-require_relative '../lib/tools'
-Dir['./lib/lib/*.rb'].sort.each { |f| require f }
+require 'tools'
+#require_relative '../lib/tools'
+#Dir['../lib/lib/*.rb'].sort.each { |f| require f }
 
 # Dir['./bin/*'].sort.each { |f| require f }
 
